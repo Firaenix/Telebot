@@ -52,22 +52,36 @@ If you want to disable twitter, just comment out all lines with 'twitbot' in it 
 ## Commands ##
 
 !wolf [query]: Will search Wolfram|Alpha for a solution to a query
+
 !pat : Send the bot some love
+
 !slap [user] : Slaps the user with a large trout
+
 !reboot : Restarts the bot
+
 !time : Returns the current Server System Date/Time
+
 !flip: flip some fuckin' tables
+
 !penis : The textual fallace
+
 !finger: spread hatred across the chat
+
 !google [search_term]: Searches google for given search term 
+
 !uptime : Returns how long the bot has been running.
+
 !interject string: returns interjection
+
 !wiki [term]: Searches wikipedia for the given term
+
 !credits: Displays the credits for HexBot
 
 
 ## Credits ##
 
 asdofindia - Base/Original code.
+
 Firaenix - Massive overhauls, majority of work. 
+
 Hexane_ - Improvements, Plugins.
