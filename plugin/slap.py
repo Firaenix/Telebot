@@ -18,5 +18,5 @@ def getCmd():
 def getArgs():
         return 1
 
-def hasEncoding():
+def hasEncodings():
 	return True

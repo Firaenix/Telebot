@@ -4,7 +4,7 @@
 # Author: Firaenix                                                        #
 ###########################################################################
 
-import pycritic
+import plugin.libraries.pycritic as pycritic
 
 def help():
         return "!critic [console],[term]: Searches Metacritic for the given term \nConsoles:(xb1, 360, xbone, ps, ps2, ps3, ps4, gc, wii, wiiu, pc)"
