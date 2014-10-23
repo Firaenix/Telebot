@@ -10,7 +10,7 @@
 *.pyc
 output
 temp
-/plugin/etc/unixfile
+unixfile
  
 # Packages #
 ############

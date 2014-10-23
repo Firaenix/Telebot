@@ -1,13 +1,11 @@
 ###########################################################################
 # Returns a link to a butthurt gif                                        #
-#                                                                         #
 # Author: Firaenix                                                        #
 ###########################################################################
 import time
 
-
 def help():
-        return "!butthurt : Returns a link to the butthurt gif"
+        return "!butthurt: Returns a link to the butthurt gif"
 
 
 def do():

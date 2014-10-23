@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #################################################
 # Urban Dictionary Plugin			#
 # Author Hexane 				#
