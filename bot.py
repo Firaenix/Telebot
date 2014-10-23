@@ -6,15 +6,16 @@
 ###################################################################
 
 from threading import Thread
-from timeit import Timer
-import lxml.html
+#from timeit import Timer
+#import lxml.html
 import time
 import sys
-import glob
+#import glob
 import traceback
 import subprocess
-import re
-from bs4 import BeautifulSoup
+import os
+#import re
+#from bs4 import BeautifulSoup
 from multiprocessing.pool import ThreadPool
 
 import pluginComponent
@@ -24,7 +25,7 @@ lastmessage=''
 proc=None
 spacer = "_____________________"
 globalGroup = ""
-#Max number of queries to bot is 25
+#Max number of queries to bot is 100
 pool = ThreadPool(processes=100)
 errorGroup = ""
 errorPeer = "Error"
@@ -34,7 +35,7 @@ pluginCmds = []
 plugins = []
 helpString = 'All possible commands:'
 
-#Is this referenced?
+
 #this function somehow works in preventing duplicate messages
 def mymessage(message):
 	global lastmessage
@@ -45,9 +46,9 @@ def mymessage(message):
 		return False
 
 def AI(group,peer,message):
-	#uncomment for debug
-	#if lastmessage is not None:
-	#	print 'message is '+message+' and lastmessage is '+lastmessage+'\n
+	
+	#if using caps, plugin still called.
+	message = message.lower()	
 
 	try:
 		if mymessage(message):
@@ -75,7 +76,7 @@ def spam(message):
 	else:
 		return False
 
-	
+#Returns the message back to the group.
 def msg(group,peer,message):
 	global proc
 	if (group is not None):
@@ -85,7 +86,7 @@ def msg(group,peer,message):
 		message=peer + ": \n"+spacer+'\n'+ message
 		#message = message.encode("UTF-8")
 		peer=group.rstrip()
-	if (not spam(message)):
+	#if (not spam(message)):
 		if(('\n' in message)or('\r' in message) or ('\r\n' in message)):
 			
 			try:
@@ -103,6 +104,7 @@ def msg(group,peer,message):
 		global lastmessage
 		lastmessage=message
 
+#Reading all input
 def bot():
 
 	COLOR_RED="\033[0;31m"
@@ -178,14 +180,22 @@ def bot():
 						multiline=True
 				if COLOR_GREY+" *** Lost connection to server..." in line:
                                 	#If the bot loses connection, restart the bot.
-					subprocess.call('killall python; killall telegram; python bot.py')
+					subprocess.call('killall python; killall telegram; nohup python bot.py')
 
 			except IndexError:
 				print "Error: Change colour levels"
-		if( ((group is not None) or (peer is not None)) and (message is not None) and (not multiline)):
+		#Calls the AI function to read the input, from there, calls the plugins
+		if( ((group is not None) or (peer is not None)) and (message is not None)):
 			#AI(group,peer,message)
 			pool.apply_async(AI, (group, peer, message,))
 
+
+def cleanupLogs():
+	try:
+		os.remove('nohup.out')
+		os.remove('output')
+	except OSError:
+	        pass
 	
 
 def help():
@@ -193,6 +203,9 @@ def help():
 	return helpString
 	
 def main():
+	#cleans up the logs on every run
+	cleanupLogs()	
+
 	botthread = Thread(target = bot)
 	botthread.start()
 

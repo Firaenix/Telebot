@@ -16,7 +16,11 @@ def do(term):
 	summary = wikipedia.summary(term, sentences=5)
 	
 	if "\""+term+"\""+" redirects here." in summary:
-		summary = wikiPage.summary
+		summary = ''
+		wikiSummary = wikiPage.summary
+		summaryList = wikiSummary.split(". ") #split on .+space to ensure not just an acronym like U.S.A
+		for i in range(0, 4):
+			summary = summary+summaryList[i]	
 
 	response = wikiPage.url + "\n\n" + summary
 

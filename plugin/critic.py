@@ -35,9 +35,15 @@ def do(term):
 		console = "wii"
 	if console == "wiiu":
 		console = "wii-u"
-	
+
+	print console
+	print game
+
+	link = "http://www.metacritic.com/game/"+console+"/"+game
+	print link	
+
 	scraper = pycritic.Scraper()
-	resource = scraper.get("http://www.metacritic.com/game/"+console+"/"+game)	
+	resource = scraper.get(link)	
 
         response = resource.name + "\n" 
 	response = response+resource.date + "\n" 

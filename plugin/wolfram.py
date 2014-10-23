@@ -1,41 +1,37 @@
-#################################################
-# Wolfram|Alpha Plugin				#
-# Queries Wolfram|Alpha for supplied text	#
-#################################################
+# -*- coding: utf-8 -*-
+###########################################################################
+# Queries Wolfram Alpha                                                   #
+#                                                                         #
+# Author: Firaenix                                                        #
+###########################################################################
 
-import xml.etree.ElementTree as ET
-import plugin.google
-import requests
-
-spacer = "_____________________"
-
-def do(query):
-	appid='49RXE9-H5QE4L98V5'
-	results = requests.get("http://api.wolframalpha.com/v2/query", params={'input':query,'appid': appid}, headers={'User-Agent': "Mozilla"})
-	results = results.text
-	results = results
-	root=ET.fromstring(results)
-	reply=None
-	print "querying wolfram for "+query
-	for pod in root.findall('pod'):
-		if (pod.attrib['id']=="Result"):
-			reply=pod[0][0].text
-			print reply
-	if not reply:
-		reply="NO_RESPONSE"
-	if reply == "NO_RESPONSE":
-		reply = "Wolfram|Alpha did not have an answer, defaulting to Google.\n"+spacer+"\n"+plugin.google.do(query)
-	return reply
-
+import tungsten
 
 def help():
-	return "!wolf [query]: Will search Wolfram|Alpha for a solution to a query"
+        return "!wolf : New wolfram alpha query in testing"
+
+def do(query):
+	client = tungsten.Tungsten('49RXE9-H5QE4L98V5')
+	result_obj = client.query(query)
+	#print result_obj
+	#print result_obj.results
+	message = ""
+	for pod in result_obj.pods:
+		print pod.scanner
+		message = message+"\n"+str(pod.format['plaintext'])
+		
+	
+	#Fixes multiplication sign
+	message = message.replace('[', '').replace("'", '').replace(']', '').replace(r'\xd7',' x ')
+	return message
 
 def getCmd():
-	return "!wolf"
+        return "!wolf"
 
 def getArgs():
-	return 1
+        return 1
 
 def hasEncodings():
         return True
+
+

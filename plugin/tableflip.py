@@ -11,7 +11,7 @@ def help():
 
 def do():
 	qtmessage = u"(╯°□°）╯︵ ┻━┻)"
-	return qtmessage.encode("UTF-8")
+	return qtmessage
 
 def getCmd():
 	return "!flip"

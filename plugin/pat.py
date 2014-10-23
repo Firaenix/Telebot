@@ -13,7 +13,7 @@ def help():
 
 def do():
 	qtmessage = u"( ^▽^) thank yuu~~~~"
-	return qtmessage.encode("UTF-8")
+	return qtmessage
 
 def getCmd():
 	return "!pat"
