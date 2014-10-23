@@ -49,31 +49,24 @@ Remove them from the plugins folder respectively
 
 ## Commands ##
 
-!wolf [query]: Will search Wolfram|Alpha for a solution to a query
-
+!wolf [query]: New wolfram alpha query in testing
 !pat : Send the bot some love
-
 !slap [user] : Slaps the user with a large trout
-
 !reboot : Restarts the bot
-
 !time : Returns the current Server System Date/Time
-
-!flip: flip some fuckin' tables
-
-!penis : The textual fallace
-
+!flip: flip some tables
+!desu: Adds some much needed desu to the chat
+!ud string: returns urban dictionary definition of a word
 !finger: spread hatred across the chat
-
-!google [search_term]: Searches google for given search term 
-
+!google [query]: Searches google for given search term
+!imgur : Returns a random imgur link
 !uptime : Returns how long the bot has been running.
-
 !interject string: returns interjection
-
+!critic [console],[term]: Searches Metacritic for the given term 
+Consoles:(xb1, 360, xbone, ps, ps2, ps3, ps4, gc, wii, wiiu, pc)
 !wiki [term]: Searches wikipedia for the given term
-
-!credits: Displays the credits for HexBot
+!credits: Displays the credits for Telebot
+!sysinfo: Returns system info
 
 
 ## Credits ##
