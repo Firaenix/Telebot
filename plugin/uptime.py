@@ -8,12 +8,14 @@ import datetime
 import dateutil.relativedelta
 from math import floor
 
+etcDir = "plugin/etc/"
+
 def help():
         return "!uptime : Returns how long the bot has been running."
 
 def do():
 	currentTime = float(time.time())
-	f = open("etc/unixfile","r")
+	f = open(etcDir+"unixfile","r")
 	startTime = f.read()
 	f.close()
 

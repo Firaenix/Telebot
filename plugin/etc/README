@@ -1,0 +1,2 @@
+The plugin/etc/ directory is used for storing files that will be saved/used by any custom bot plugins.
+Access this directory using a global variable etcDir = "plugin/etc/", this is for consistency above all else
