@@ -20,7 +20,7 @@ lastmessage=''
 proc=None
 spacer = "_____________________"
 globalGroup = ""
-#Max number of queries to bot is 100
+#Set # of max threads at once 'processes=###'
 pool = ThreadPool(processes=100)
 errorGroup = ""
 errorPeer = "Error"
@@ -31,7 +31,7 @@ plugins = []
 helpString = 'All possible commands:'
 
 
-#this function somehow works in preventing duplicate messages
+#this function checks for spam by comparing current message to last message
 def mymessage(message):
 	global lastmessage
 
@@ -72,13 +72,9 @@ def spam(message):
 def msg(group,peer,message):
 	global proc
 	if (group is not None):
-		#Returns message to specified user: peer
-		#peer = peer.split(' ')[0] +" "+ peer.split(' ')[1].rstrip()
-
+		#Returns message to specified user: peer)
 		message=peer + ": \n"+spacer+'\n'+ message
-		#message = message.encode("UTF-8")
 		peer=group.rstrip()
-	#if (not spam(message)):
 		if(('\n' in message)or('\r' in message) or ('\r\n' in message)):
 			
 			try:
@@ -96,7 +92,7 @@ def msg(group,peer,message):
 		global lastmessage
 		lastmessage=message
 
-#Reading all input
+#Reading all input, reads colours of text to determine where message is sent from.
 def bot():
 
 	COLOR_RED="\033[0;31m"
@@ -136,13 +132,9 @@ def bot():
 			peer=None
 			message=None
 				
-			try:
-                     	
-				#A bad way of determining the peer name - if it is blue...
+			try:                     	
+				#Checks the colour of the stdout line
 				if ((COLOR_BLUE+" >>>" in line) and (COLOR_BLUE+"[" in line) and ("!" in line)):
-					#if you get change colour level errors, uncomment the below line, and comment the line below that.
-					#peer=line.split(COLOR_REDB)[1].split(COLOR_RED)[0]			
-
 					peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
 					message=line.split(COLOR_BLUE+" >>> ")[1].split("\033")[0]
 					if not line.endswith("[0m\n"):
@@ -178,10 +170,10 @@ def bot():
 				print "Error: Change colour levels"
 		#Calls the AI function to read the input, from there, calls the plugins
 		if( ((group is not None) or (peer is not None)) and (message is not None)):
-			#AI(group,peer,message)
+			#adds the command to a new thread
 			pool.apply_async(AI, (group, peer, message,))
 
-
+#Cleans up the root dir on startup of all logs.
 def cleanupLogs():
 	try:
 		os.remove('output')
@@ -195,7 +187,7 @@ def help():
 	
 def main():
 	#cleans up the logs on every run
-	cleanupLogs()	
+	cleanupLogs()
 
 	botthread = Thread(target = bot)
 	botthread.start()
