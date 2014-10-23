@@ -13,7 +13,7 @@ def help():
 
 def do():
 	currentTime = float(time.time())
-	f = open("unixfile","r")
+	f = open("/etc/unixfile","r")
 	startTime = f.read()
 	f.close()
 
