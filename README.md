@@ -34,9 +34,7 @@ Within bot.py the path to the telegram client needs to be changed within the pat
 /plugin/wolf.py needs a valid app id to work. This can be obtained on the developer section of the Wolfram website.
 
 ### Disabling modules ###
-If you don't want some of these modules, just remove them from the modules array in callmodule function
-If you want to disable twitter, just comment out all lines with 'twitbot' in it in the main function.
-
+Remove them from the plugins folder respectively
 
 ## Features, Fixes and Fun ##
   
