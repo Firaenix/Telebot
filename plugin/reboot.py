@@ -1,9 +1,7 @@
 ###########################################################################
 # Kills all bot related processes and restarts the bot from scratch       #
-#                                                                         #
 # Author: Firaenix                                                        #
 ###########################################################################
-
 import sys
 import os
 

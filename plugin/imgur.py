@@ -1,14 +1,11 @@
 ###########################################################################
 # Gets a random image from imgur and returns the link                     #
-#                                                                         #
 # Author: Firaenix                                                        #
 ###########################################################################
 import random
 import urllib2
 
-
 imgUrl = "http://i.imgur.com/"
-
 
 def help():
         return "!imgur : Returns a random imgur link"

@@ -1,6 +1,5 @@
 ###########################################################################
-# Wikipedia plugin for HexBot                                             #
-#                                                                         #
+# Wikipedia plugin for TeleBot                                            #
 # Author: Firaenix                                                        #
 ###########################################################################
 
@@ -11,8 +10,7 @@ def help():
 
 
 def do(term):
-	wikiPage = wikipedia.page(term)        
-	
+	wikiPage = wikipedia.page(term)        	
 	summary = wikipedia.summary(term, sentences=5)
 	
 	if "\""+term+"\""+" redirects here." in summary:

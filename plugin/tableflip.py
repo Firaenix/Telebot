@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 ###########################################################################
-# Displays a cute message                                                 #
-# 									  #
+# Unicode Tableflip                                                       #
 # Author: Hexane                                                          #
 ###########################################################################
-
 
 def help():
         return "!flip: flip some fuckin' tables"
