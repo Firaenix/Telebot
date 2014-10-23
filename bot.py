@@ -6,16 +6,11 @@
 ###################################################################
 
 from threading import Thread
-#from timeit import Timer
-#import lxml.html
 import time
 import sys
-#import glob
 import traceback
 import subprocess
 import os
-#import re
-#from bs4 import BeautifulSoup
 from multiprocessing.pool import ThreadPool
 
 import pluginComponent
@@ -57,9 +52,6 @@ def AI(group,peer,message):
 		reply=None
 		if group is None:
 			replyrequired=True
-	#if (message[:3].lower()=="!wolf"):
-	#	replyrequired=True
-
 		reply= pluginComponent.callmodule(message)
 
 		if reply is not None:
@@ -192,7 +184,6 @@ def bot():
 
 def cleanupLogs():
 	try:
-		os.remove('nohup.out')
 		os.remove('output')
 	except OSError:
 	        pass
