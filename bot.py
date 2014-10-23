@@ -24,6 +24,7 @@ globalGroup = ""
 pool = ThreadPool(processes=100)
 errorGroup = ""
 errorPeer = "Error"
+etcDir = "plugin/etc/"
 
 
 pluginCmds = []
@@ -194,7 +195,7 @@ def main():
 
 	#Writes current unix time to file
 	unixtime = str(int(time.time()))
-	f = open("unixfile","w")
+	f = open(etcDir+"unixfile","w")
 	f.write(unixtime)
 	f.close()
 	

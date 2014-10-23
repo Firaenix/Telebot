@@ -5,6 +5,7 @@
 import random
 import urllib2
 
+imgGalurl = "http://imgur.com/gallery/"
 imgUrl = "http://i.imgur.com/"
 
 def help():
@@ -12,17 +13,20 @@ def help():
 
 def getRandomLink():
 	
+	#gets the thread link and the direct image link
+	galLink = imgGalurl
 	urlLink = imgUrl
 	for i in range(0, 5): #messy, but gets the job done.
 		choices = random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-
+		
+		galLink = galLink + choices
 		urlLink = urlLink + choices
 	
 	urlLink = urlLink+".jpg"
 	checkedUrl = urllib2.urlopen(urlLink).geturl()
 
 	if(urlLink == checkedUrl):
-		return urlLink
+		return "Gallery: "+galLink+"\nImage: "+urlLink
 	else:
 		return getRandomLink() #recursively calls itself until gets to a valid imgur link
 

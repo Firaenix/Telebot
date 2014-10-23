@@ -8,10 +8,9 @@ def help():
         return "!sysinfo: Returns system info"
 
 def do():
-
-	sh = subprocess.Popen(["/bin/uname -r"], shell=False, stdout=subprocess.PIPE)
-	kernstring = sh.stdout.read()
-        
+        cpustring = subprocess.check_output("cat /proc/cpuinfo | grep 'model name' | tail -n 1 | cut -d: -f2 | cut -c 2-', shell=True")
+	kernstring = subprocess.check_output('uname -r', shell=True) 
+	return "CPU: " + cpustring + "\n"
 	return "Kernel: " + kernstring
 
 def getCmd():
