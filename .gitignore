@@ -6,8 +6,13 @@
 *.exe
 *.o
 *.so
-*.save
 *.pyc
+
+
+# Misc Files #
+##############
+*.save
+*.out
 output
 temp
 unixfile
