@@ -158,7 +158,7 @@ def bot():
 					#Then strip the " [0" Which is displayed after the username.
 					#rstrip() to remove final whitespace
 
-					peer=line.split(group)[1].split('m')[2].strip(' [0').rstrip()
+					peer=line.split(group)[1].split('m')[2].strip('[0').rstrip()
 
 					message=line.split(COLOR_BLUE+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
 					if not line.endswith("[0m\n"):
