@@ -76,3 +76,13 @@ asdofindia - Base/Original code.
 Firaenix - Massive overhauls, majority of work. 
 
 Hexane_ - Improvements, Plugins.
+
+## TODO ##
+- Integrate more tightly into Telegram CLI/API 
+- Remove rest of asdofindia's code, replace with Telegram API python wrapper. 
+- Move contents of bot.py into a class 
+- Create new .py script to create object of bot for each group the bot joins. 
+- Test multiple group support.
+- Implement IRC-like permissions system
+- Enable peer/group name passing to modules.
+- Refactor modules to enable list containing name eg. ['!wolf', '!wolfram']

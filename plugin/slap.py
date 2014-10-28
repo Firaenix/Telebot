@@ -7,7 +7,7 @@ def help():
         return "!slap [user] : Slaps the user with a large trout"
 
 def do(username):
-        message = u"*Hexbot slaps "+username+" around a bit  with a large trout*"
+        message = u"*Hexbot slaps "+username+" around a bit with a large trout*"
         return message.encode("UTF-8")
 
 def getCmd():

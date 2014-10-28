@@ -44,7 +44,11 @@ def mymessage(message):
 def AI(group,peer,message):
 	
 	#if using caps, plugin still called.
-	message = message.lower()	
+	messagelist = message.split(" ");
+	if "!" in messagelist[0]:
+		messagelist[0] = messagelist[0].lower()
+
+	message = " ".join(messagelist)	
 
 	try:
 		if mymessage(message):
@@ -73,8 +77,8 @@ def spam(message):
 def msg(group,peer,message):
 	global proc
 	if (group is not None):
-		#Returns message to specified user: peer)
-		message=peer + ": \n"+spacer+'\n'+ message
+		#Returns message to specified user: peer - peer contains \x1b at end of string, ANSI character causing space before ":""
+		message=peer + ": \n" + spacer +"\n" + message
 		peer=group.rstrip()
 		if(('\n' in message)or('\r' in message) or ('\r\n' in message)):
 			
@@ -163,7 +167,8 @@ def bot():
 					message=line.split(COLOR_BLUE+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
 					if not line.endswith("[0m\n"):
 						multiline=True
-				if COLOR_GREY+" *** Lost connection to server..." in line:
+				if COLOR_GREY in line and "*** Lost connection to server..." in line:
+					print "Detected connection to server loss, restarting bot..."
                                 	#If the bot loses connection, restart the bot.
 					subprocess.call('killall python; killall telegram; nohup python bot.py')
 
