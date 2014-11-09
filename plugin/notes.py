@@ -7,8 +7,6 @@
 import os.path
 import datetime
 
-dt = datetime.datetime.now()
-date = str(dt.day)+"/"+str(dt.month)+"/"+str(dt.year)
 etcDir = "plugin/etc/"
 notesdir = etcDir+"notes"
 
@@ -19,6 +17,9 @@ def do(input):
 	if len(input) > 120:
 		return "Message too long. Try again with a shorter sentence."
 	output = ""
+	
+	#PINGAS
+	#raise Exception("Test exception")
 
 	#check for remove command
 	list = input.split(" ")
@@ -41,6 +42,10 @@ def do(input):
 def saveNote(input):
 	#Save input to notes file
         checkExists()
+	
+	dt = datetime.datetime.now()
+	date = str(dt.day)+"/"+str(dt.month)+"/"+str(dt.year)
+	
 	#appends file
         with open(notesdir, "a") as notesfile:
         	notesfile.write(date+": "+input+"\n")
@@ -59,10 +64,12 @@ def removeNote(noteInt):
 	
 	#Check int is valid, output all contents of the list 
 	#back into the file, excluding noteInt	
-	if noteInt >= 1 and noteInt <= len(linelist):
+	if noteInt >= 1 and noteInt <= len(linelist) or noteInt == -1:
 		#removes line at given int
 		for x in range(0, len(linelist)):
-			if x+1 == noteInt:
+			if x+1 == len(linelist) and noteInt == -1:
+					print "Skipping/Removing last line"	
+			elif x+1 == noteInt:
 				print "Skipping line: %i",noteInt
 			else:
 				output = output+linelist[x]
@@ -80,10 +87,12 @@ def printOut():
 	#Make sure file exists before printing
 	checkExists()
 	output = ""
+	count = 0
 	#Read all lines out to screen
         with open(notesdir, "r") as file:
                 for line in file:
-                        output = output+line
+			count = count+1
+                        output = output+str(count)+": "+line
         return output
 
 

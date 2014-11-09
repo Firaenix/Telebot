@@ -7,6 +7,8 @@ import os
 import subprocess
 
 import bot
+import plugin.libraries.errorlog as errorlog
+
 
 pluginCmds = []
 plugins = []
@@ -39,10 +41,6 @@ def getPlugins(firstRun):
 
                                 #Dynamic imports the plugins in the plugin directory
 				try:
-					#print "plugin_path: "+plugin_path
-					#currentos.remove(plugin_path+".pyc")
-					#recompiles each plugin and then dynamically imports
-					#compileall.compile_dir()
                                 	plugins.append(importPlugins(package_plugin))
 				except ImportError:
 					print "Unable to import plugin, is it valid?"
@@ -60,7 +58,6 @@ def getPlugins(firstRun):
                                
                                 helpString += "\n"+ s
                         except Exception as e:
-                                print "Did you import the new plugin in bot.py?"
                                 print traceback.print_exc()
 
         pluginCmds.append("!help")
@@ -82,7 +79,12 @@ def callmodule(message):
                 print message
         except Exception as e:
                 print "Error occurred: "
-                print traceback.print_exc()
+		err = traceback.print_exc()
+                print err
+	
+		print "Logging error..."
+                errorlog.logError(str(err), "ErrLog")
+
                 message = "error"
         count = 0
         for pluginCmd in pluginCmds:
@@ -122,8 +124,15 @@ def callmodule(message):
                                                                 return reply
                         except Exception as e:
                                 print "Error occurred..."
-                                print traceback.print_exc()
+				err = traceback.print_exc()
+                                print err
+				
+				print "Logging error..."
+		                
+                		errorlog.logError(str(err), "ErrLog")
+
                                 return "Error Occurred. \n\n"+traceback.format_exc()
+
                 count = count+1
 
 

@@ -14,6 +14,7 @@ import os
 from multiprocessing.pool import ThreadPool
 
 import pluginComponent
+import plugin.libraries.errorlog as errorlog
 
 pathtotg='../tg/'    #include trailing slash. I don't know if '~' notation works
 lastmessage=''
@@ -63,7 +64,13 @@ def AI(group,peer,message):
 			msg(group,peer,reply)
 	except Exception as e:
 		print "Unexpected error occurred..."
-                print e.message, e.args
+                print traceback.print_exc()
+	
+		print "Logging error..."
+		errormsg = traceback.print_exc()
+                errorlog.logError(errormsg, "ErrLog")
+
+
                 proc.stdin.write('msg '+peer.replace(' ','_')+' '+"Something went wrong..."+'\n\n'+e.message+"\n"+e.args)
 	
 			
@@ -87,10 +94,16 @@ def msg(group,peer,message):
 				temp=open(tempfile,'w')
 				temp.write(message)
 				temp.close()
+
 				proc.stdin.write('send_text '+peer.replace(' ','_')+' '+tempfile.encode("UTF-8")+'\n')
 			except Exception as e:
 				print "Unexpected error occurred..."
-				print e.message, e.args
+				print traceback.print_exc()
+				print "Logging  error..."
+				
+				errormsg = traceback.print_exc()
+				errorlog.logError(errormsg, "ErrLog")
+				
 				proc.stdin.write('msg '+peer.replace(' ','_')+' '+"Something went wrong..."+'\n\n'+e.message+"\n"+e.args)
 		else:
 			proc.stdin.write('msg '+peer.replace(' ','_')+' '+message+'\n')
@@ -170,7 +183,7 @@ def bot():
 				if COLOR_GREY in line and "*** Lost connection to server..." in line:
 					print "Detected connection to server loss, restarting bot..."
                                 	#If the bot loses connection, restart the bot.
-					subprocess.call('killall python; killall telegram; nohup python bot.py')
+					subprocess.call('killall python; killall telegram; python bot.py')
 
 			except IndexError:
 				print "Error: Change colour levels"
