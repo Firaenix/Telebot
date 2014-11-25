@@ -31,8 +31,11 @@ def do(terms): # google <search term>
 	title = title.replace("<b>", "")
 	title = title.replace("</b>", "")
 	title = title.replace("&amp", "&")
+
+	url = url.replace("%3F", "?")
+	url = url.replace("%3D", "=")
         
-        returnval += title + ': ' + url + '\n\n'
+        returnval += title + ': ' +  url + '\n\n'
 
     if not returnval:
         print "no returned JSON"
