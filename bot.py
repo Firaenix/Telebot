@@ -87,8 +87,8 @@ def msg(group,peer,message):
 				tempfile='temp'
 				temp=open(tempfile,'w')
 				#Handle potential unicode situations
-				tempmessage = "%s" % message
-				temp.write(tempmessage.encode('UTF-8'))
+#				tempmessage = "%s" % message
+				temp.write(message)
 				temp.close()
 
 				proc.stdin.write('send_text '+peer.replace(' ','_')+' '+tempfile.encode("UTF-8")+'\n')
