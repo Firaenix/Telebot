@@ -109,8 +109,8 @@ def callmodule(message):
                                                 if plugins[count].getArgs() > 0:
 							#If plugin uses any encoding other than ASCII
 							if plugins[count].hasEncodings():
-                                                        	reply = plugins[count].do(message.decode("UTF-8"))
-                                                        	return reply.encode("UTF-8")
+                                                        	reply = plugins[count].do(message)
+                                                        	return "%s" % reply
 							else:
 								reply = plugins[count].do(message)
                                                                 return reply
@@ -118,7 +118,7 @@ def callmodule(message):
                                                 else :
 							if plugins[count].hasEncodings():
 	                                                        reply = plugins[count].do()      
-        	                                                return reply.encode("UTF-8")
+        	                                                return "%s" % reply
 							else:
 								reply = plugins[count].do()
                                                                 return reply

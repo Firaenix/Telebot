@@ -17,6 +17,10 @@ output
 notes
 temp
 unixfile
+
+# Directories #
+###############
+plugin/libraries/
  
 # Packages #
 ############

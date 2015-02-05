@@ -4,15 +4,21 @@
 # Author: Firaenix                                                        #
 ###########################################################################
 import wikipedia
+import traceback
 
 def help():
         return "!wiki [term]: Searches wikipedia for the given term"
 
 
 def do(term):
-	wikiPage = wikipedia.page(term)        	
-	summary = wikipedia.summary(term, sentences=5)
+	try:
+		wikiPage = wikipedia.page(term)        	
+	except wikipedia.exceptions.DisambiguationError as e:
+		disList = '\n'.join(e.options)
+		return 'Found more than one page matching "'+term+'".\nDid you mean:\n\n'+disList
 	
+	summary = wikipedia.summary(term, sentences=5)
+
 	if "\""+term+"\""+" redirects here." in summary:
 		summary = ''
 		wikiSummary = wikiPage.summary

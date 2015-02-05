@@ -32,7 +32,7 @@ def help():
 
 def do(args):
 	if args == "":
-		return "No question."
+		return "You got a question? You ask the 8ball"
 	if "am i ever gonna see your face again" in args.lower():
 		return "NO WAY GET FUCKED FUCK OFF"
 	else:
