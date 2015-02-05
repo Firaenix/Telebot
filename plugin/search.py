@@ -10,7 +10,7 @@ def help():
         return "!search [terms]: search the interwebs"
 
 def do(args):
-	api = 'l3iLSqvL/7Yzn29rUsP7akKjyf9AZnTVlE8zAvnYp/k'
+	api = 'AAAAAAAAAAAAAAAAAAAAAAAAAA'
 	bing = PyBingSearch(api)
 	result_list, next_uri = bing.search(args, limit=5, format='json')
 
