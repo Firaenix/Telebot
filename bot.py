@@ -14,7 +14,6 @@ import os
 from multiprocessing.pool import ThreadPool
 
 import pluginComponent
-import plugin.libraries.errorlog as errorlog
 
 pathtotg='../tg/'    #include trailing slash. I don't know if '~' notation works
 lastmessage=''
@@ -65,11 +64,6 @@ def AI(group,peer,message):
 	except Exception as e:
 		print "Unexpected error occurred..."
                 print traceback.print_exc()
-	
-		print "Logging error..."
-		errormsg = traceback.print_exc()
-                errorlog.logError(errormsg, "ErrLog")
-
 
                 proc.stdin.write('msg '+peer.replace(' ','_')+' '+"Something went wrong..."+'\n\n'+e.message+"\n"+e.args)
 	
@@ -101,10 +95,6 @@ def msg(group,peer,message):
 			except Exception as e:
 				print "Unexpected error occurred..."
 				print traceback.print_exc()
-				print "Logging  error..."
-				
-				errormsg = traceback.print_exc()
-				errorlog.logError(errormsg, "ErrLog")
 				
 				proc.stdin.write('msg '+peer.replace(' ','_')+' '+"Something went wrong..."+'\n\n'+e.message+"\n"+e.args)
 		else:

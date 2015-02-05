@@ -7,7 +7,6 @@ import os
 import subprocess
 
 import bot
-import plugin.libraries.errorlog as errorlog
 
 
 pluginCmds = []
@@ -80,10 +79,7 @@ def callmodule(message):
         except Exception as e:
                 print "Error occurred: "
 		err = traceback.print_exc()
-                print err
-	
-		print "Logging error..."
-                errorlog.logError(str(err), "ErrLog")
+          	print err
 
                 message = "error"
         count = 0
@@ -126,10 +122,6 @@ def callmodule(message):
                                 print "Error occurred..."
 				err = traceback.print_exc()
                                 print err
-				
-				print "Logging error..."
-		                
-                		errorlog.logError(str(err), "ErrLog")
 
                                 return "Error Occurred. \n\n"+traceback.format_exc()
 
