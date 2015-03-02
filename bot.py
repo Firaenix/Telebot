@@ -63,14 +63,16 @@ def AI(group,peer,message):
 		
 		#global proc
 		#proc.stdin.flush()
+		tgin = _proc.stdin
 		reply= pluginComponent.callmodule(message, [tgin, group, peer])
 
 		if reply is not None:
+			tgin = _proc.stdin
 			submit_msg(group,peer,reply, tgin)
 	except:			
 		print "Error occurred..."
                 err = traceback.print_exc()
-		
+		tgin = _proc.stdin
 		submit_msg(group, peer, err, tgin)
 			
 def spam(message):
@@ -84,7 +86,7 @@ def submit_msg(group,peer,message, tgin):
 	global lastmessage
 #	console.log('tgin: '+tgin)
 #	global tgin
-	global _proc
+#	global _proc
 	tgin = _proc.stdin
 	lastmessage = msg.send_msg(group, peer, message, tgin)
 
@@ -163,7 +165,7 @@ def bot():
 				if COLOR_GREY in line and "*** Lost connection to server..." in line:
 					print "Detected connection to server loss, restarting bot..."
                                 	#If the bot loses connection, restart the bot.
-					subprocess.call('killall python; killall telegram-cli; python bot.py')
+					subprocess.call('killall python2.7; killall telegram-cli; python bot.py')
 
 			except IndexError:
 				print "Error: Change colour levels"
@@ -187,13 +189,6 @@ def help():
 def main():
 	#cleans up the logs on every run
 	cleanupLogs()
-	
-	global __proc
-	global tgin
-	proc = subprocess.Popen([_pathtotg+'telegram-cli','-k',_pathtotg+'../tg-server.pub'],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
-        _proc = proc
-        tgin = proc.stdin
-
 
 	botthread = Thread(target = bot)
 	botthread.start()
