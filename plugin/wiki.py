@@ -4,7 +4,6 @@
 # Author: Firaenix                                                        #
 ###########################################################################
 import wikipedia
-import traceback
 
 def help():
         return "!wiki [term]: Searches wikipedia for the given term"

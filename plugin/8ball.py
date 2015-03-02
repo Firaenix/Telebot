@@ -1,8 +1,7 @@
 ###########################################################################
-# Prints System Info							  #
+# An 8ball function							  #
 # Author: Hexane		                                          #
 ###########################################################################
-import subprocess
 import random
 
 answers = ["It is certain.",

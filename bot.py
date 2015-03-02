@@ -13,11 +13,14 @@ import subprocess
 import os
 from multiprocessing.pool import ThreadPool
 
+from sdk import msg
+#from sdk import stacktrace
 import pluginComponent
 
-pathtotg='../tg/'    #include trailing slash. I don't know if '~' notation works
+_pathtotg='../tg/bin/'    #include trailing slash. I don't know if '~' notation works
 lastmessage=''
-proc=None
+_proc=None
+tgin=None
 spacer = "_____________________"
 globalGroup = ""
 #Set # of max threads at once 'processes=###'
@@ -57,16 +60,18 @@ def AI(group,peer,message):
 		reply=None
 		if group is None:
 			replyrequired=True
-		reply= pluginComponent.callmodule(message)
+		
+		#global proc
+		#proc.stdin.flush()
+		reply= pluginComponent.callmodule(message, [tgin, group, peer])
 
 		if reply is not None:
-			msg(group,peer,reply)
-	except Exception as e:
-		print "Unexpected error occurred..."
-                print traceback.print_exc()
-
-                proc.stdin.write('msg '+peer.replace(' ','_')+' '+"Something went wrong..."+'\n\n'+e.message+"\n"+e.args)
-	
+			submit_msg(group,peer,reply, tgin)
+	except:			
+		print "Error occurred..."
+                err = traceback.print_exc()
+		
+		submit_msg(group, peer, err, tgin)
 			
 def spam(message):
 	if (message == lastmessage):
@@ -75,32 +80,13 @@ def spam(message):
 		return False
 
 #Returns the message back to the group.
-def msg(group,peer,message):
-	global proc
-	if (group is not None):
-		#Returns message to specified user: peer - peer contains \x1b at end of string, ANSI character causing space before ":""
-		message=peer + ": \n" + spacer +"\n" + message
-		peer=group.rstrip()
-		if(('\n' in message)or('\r' in message) or ('\r\n' in message)):
-			
-			try:
-				tempfile='temp'
-				temp=open(tempfile,'w')
-				#Handle potential unicode situations
-#				tempmessage = "%s" % message
-				temp.write(message)
-				temp.close()
-
-				proc.stdin.write('send_text '+peer.replace(' ','_')+' '+tempfile.encode("UTF-8")+'\n')
-			except Exception as e:
-				print "Unexpected error occurred..."
-				print traceback.print_exc()
-				
-				proc.stdin.write('msg '+peer.replace(' ','_')+' '+"Something went wrong..."+'\n\n'+e.message+"\n"+e.args)
-		else:
-			proc.stdin.write('msg '+peer.replace(' ','_')+' '+message+'\n')
-		global lastmessage
-		lastmessage=message
+def submit_msg(group,peer,message, tgin):
+	global lastmessage
+#	console.log('tgin: '+tgin)
+#	global tgin
+	global _proc
+	tgin = _proc.stdin
+	lastmessage = msg.send_msg(group, peer, message, tgin)
 
 #Reading all input, reads colours of text to determine where message is sent from.
 def bot():
@@ -117,13 +103,15 @@ def bot():
 	COLOR_LCYAN="\033[0;36m"
 	COLOR_INVERSE="\033[7m"
 	
-	global pathtotg
-	global proc
-	proc=subprocess.Popen([pathtotg+'telegram','-k',pathtotg+'tg-server.pub'],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+	#global pathtotg
+	global _proc
+	global _tgin
+	_proc = subprocess.Popen([_pathtotg+'telegram-cli','-k',_pathtotg+'../tg-server.pub'],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+	tgin = _proc.stdin
 	lastmessage=None
 	multiline=False
 	
-	for line in iter(proc.stdout.readline,''):
+	for line in iter(_proc.stdout.readline,''):
 		if multiline and line != None and message != None:
 			message+=line
 			message = message.decode("UTF-8")
@@ -175,7 +163,7 @@ def bot():
 				if COLOR_GREY in line and "*** Lost connection to server..." in line:
 					print "Detected connection to server loss, restarting bot..."
                                 	#If the bot loses connection, restart the bot.
-					subprocess.call('killall python; killall telegram; python bot.py')
+					subprocess.call('killall python; killall telegram-cli; python bot.py')
 
 			except IndexError:
 				print "Error: Change colour levels"
@@ -199,6 +187,13 @@ def help():
 def main():
 	#cleans up the logs on every run
 	cleanupLogs()
+	
+	global __proc
+	global tgin
+	proc = subprocess.Popen([_pathtotg+'telegram-cli','-k',_pathtotg+'../tg-server.pub'],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+        _proc = proc
+        tgin = proc.stdin
+
 
 	botthread = Thread(target = bot)
 	botthread.start()

@@ -24,7 +24,7 @@ def do():
 	rd = dateutil.relativedelta.relativedelta (dt2, dt1)
 
 	print "%d years, %d months, %d days, %d hours, %d minutes and %d seconds" % (rd.years, rd.months, rd.days, rd.hours, rd.minutes, rd.seconds)
-	return "Uptime: " + "%d hours, %d minutes and %d seconds" % (rd.hours, rd.minutes, rd.seconds)
+	return "Uptime: " + "%d days, %d hours, %d minutes and %d seconds" % (rd.days, rd.hours, rd.minutes, rd.seconds)
 
 def getCmd():
 	return "!uptime"

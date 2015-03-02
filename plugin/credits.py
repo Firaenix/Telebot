@@ -7,9 +7,9 @@ def help():
         return "!credits: Displays the credits for Telebot"
 
 def do():
-	credits = "Original Source Code: asdofindia \n"
-	credits += "Authors of HexBot: Firaenix and Hexane \n"
-	credits += "Beta testers: CH23 \n"
+	credits = """Original Source Code: asdofindia \n
+		     Authors of HexBot: Firaenix and Hexane \n
+		     Beta testers: CH23, jstrcrws, Char_Kie \n"""
         return credits
 
 def getCmd():

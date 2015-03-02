@@ -3,7 +3,6 @@
 # Adds some much needed desu to the chat                                  #
 # Author: Firaenix                                                        #
 ###########################################################################
-import time
 from random import randrange
 
 def help():

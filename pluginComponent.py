@@ -62,8 +62,6 @@ def getPlugins(firstRun):
         pluginCmds.append("!help")
 	pluginCmds.append("!reloadmodules")
 	pluginCmds.append("!reloadplugins")
-        print pluginCmds
-        print plugins
 
 
 def importPlugins(name):
@@ -72,7 +70,7 @@ def importPlugins(name):
 	
 
 
-def callmodule(message):
+def callmodule(message, optionsList):
         try:
                 message=message#.decode(encoding="UTF-8",errors="ignore")
                 print message
@@ -102,7 +100,7 @@ def callmodule(message):
                                         if pluginCmd == plugins[count].getCmd():
                                                
                                                 #Check how many arguments the method takes
-                                                if plugins[count].getArgs() > 0:
+                                                if plugins[count].getArgs() == 1:
 							#If plugin uses any encoding other than ASCII
 							if plugins[count].hasEncodings():
                                                         	reply = plugins[count].do(message)
@@ -110,7 +108,15 @@ def callmodule(message):
 							else:
 								reply = plugins[count].do(message)
                                                                 return reply
-	
+						if plugins[count].getArgs() > 1:
+							#If any plugin needs SDK functions, args must be > 1
+							#If plugin uses any encoding other than ASCII
+                                                        if plugins[count].hasEncodings():
+                                                                reply = plugins[count].do(message, optionsList)
+                                                                return ("%s" % reply).encode('UTF-8')
+                                                        else:
+                                                                reply = plugins[count].do(message, optionsList)
+                                                                return reply	
                                                 else :
 							if plugins[count].hasEncodings():
 	                                                        reply = plugins[count].do()      
