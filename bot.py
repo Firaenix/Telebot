@@ -175,7 +175,19 @@ def bot():
 			pool.apply_async(AI, (group, peer, message,))
 
 #Cleans up the root dir on startup of all logs.
-def cleanupLogs():
+def cleanupFiles():
+	#clean up downloads directory
+	folder = etcDir+'downloads/'
+	for the_file in os.listdir(folder):
+	        file_path = os.path.join(folder, the_file)
+		print file_path
+        	try:
+        		if os.path.isfile(file_path):
+				print 'deleting'
+		        	os.remove(file_path)
+		except Exception, e:
+        		print e
+
 	try:
 		os.remove('output')
 	except OSError:
@@ -187,8 +199,8 @@ def help():
 	return helpString
 	
 def main():
-	#cleans up the logs on every run
-	cleanupLogs()
+	#cleans up the files on every run
+	cleanupFiles()
 
 	botthread = Thread(target = bot)
 	botthread.start()

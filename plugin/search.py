@@ -28,7 +28,7 @@ def do(args):
 	return "%s" % returnText
 	
 def getCmd():
-	return "!search"
+	return ["!search"]
 
 def getArgs():
 	return 1

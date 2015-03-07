@@ -21,6 +21,7 @@ unixfile
 # Directories #
 ###############
 plugin/libraries/
+plugin/etc/downloads/
  
 # Packages #
 ############

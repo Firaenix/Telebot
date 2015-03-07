@@ -27,7 +27,7 @@ def do():
 	return "Uptime: " + "%d days, %d hours, %d minutes and %d seconds" % (rd.days, rd.hours, rd.minutes, rd.seconds)
 
 def getCmd():
-	return "!uptime"
+	return ["!uptime"]
 
 def getArgs():
 	return 0

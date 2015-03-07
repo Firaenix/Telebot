@@ -9,6 +9,9 @@ def help():
         return "!wolf [query]: New wolfram alpha query in testing"
 
 def do(query):
+	#plugins with multiple cmds get passed the query+which command was called
+	query = query[0]
+	
 	client = tungsten.Tungsten('49RXE9-H5QE4L98V5')
 	result_obj = client.query(query)
 	message = ""
@@ -21,7 +24,7 @@ def do(query):
 	return message
 
 def getCmd():
-        return "!wolf"
+        return ["!wolfram", "!wolf"]
 
 def getArgs():
         return 1

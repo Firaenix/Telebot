@@ -104,7 +104,7 @@ def checkExists():
          	       print "Created new notes file"
 
 def getCmd():
-        return "!notes"
+        return ["!notes"]
 
 def getArgs():
         return 1

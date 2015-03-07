@@ -40,7 +40,7 @@ def do(input):
         return message
 
 def getCmd():
-        return "!fight"
+        return ["!fight"]
 
 def getArgs():
         return 1

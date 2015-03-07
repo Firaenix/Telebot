@@ -7,6 +7,8 @@
 def write(tgin, cmd, message):
 	#Grabs the desired command, out puts it to the CLI
 	if (tgin is not None):
+		print cmd
+		print message
 		tgin.write(' '.join([cmd, message])+'\n')
                 tgin.flush()
 	else:

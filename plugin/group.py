@@ -15,6 +15,7 @@ def help():
         return "!group [cmd][args]: cmds:rename, setPic, args:newName,picURL"
 
 def do(message, optionsList):
+	print message
 	cmd = message.split(' ')[0]
 	args = " ".join(message.split(' ')[1:])
 
@@ -48,7 +49,7 @@ def set_pic(urlLink, optionsList):
         return "Group picture changed."
 
 def getCmd():
-        return "!group"
+        return ["!group"]
 
 def getArgs():
         return 2

@@ -11,7 +11,7 @@ def do():
    	return "Current Server Date: "+time.strftime("%A %d, %B %Y")+"\n"+"Current Server Time: " + time.strftime("%H:%M:%S")
 
 def getCmd():
-	return "!time"
+	return ["!time"]
 
 def getArgs():
 	return 0

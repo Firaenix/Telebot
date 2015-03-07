@@ -11,7 +11,7 @@ def do(username):
         return message.encode("UTF-8")
 
 def getCmd():
-        return "!slap"
+        return ["!slap"]
 
 def getArgs():
         return 1

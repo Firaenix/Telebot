@@ -46,10 +46,10 @@ def getPlugins(firstRun):
 					print traceback.print_exc()
 
 				module = importPlugins(package_plugin)
-                                cmdStr = module.getCmd()
+                                cmds = module.getCmd()
 
                                 #Runs the command and returns desired input
-                                pluginCmds.append(cmdStr)
+                                pluginCmds.append(cmds)
 
                                 #On start up, adds the help text to the string
                                 s = module.help()
@@ -59,10 +59,9 @@ def getPlugins(firstRun):
                         except Exception as e:
                                 print traceback.print_exc()
 
-        pluginCmds.append("!help")
-	pluginCmds.append("!reloadmodules")
-	pluginCmds.append("!reloadplugins")
-
+        pluginCmds.append(["!help"])
+	#pluginCmds.append(["!reloadmodules"])
+	#pluginCmds.append(["!reloadplugins"])
 
 def importPlugins(name):
     mod = __import__(name, fromlist=[''])
@@ -71,67 +70,62 @@ def importPlugins(name):
 
 
 def callmodule(message, optionsList):
-        try:
-                message=message#.decode(encoding="UTF-8",errors="ignore")
-                print message
-        except Exception as e:
-                print "Error occurred: "
-		err = traceback.print_exc()
-          	print err
-
-                message = "error"
+        command = message.split(' ')[0]
         count = 0
         for pluginCmd in pluginCmds:
-                if (message.find(pluginCmd)==0):
-                        message=message[len(pluginCmd)+1:]
+		for subCmd in pluginCmd:
+	                if (command == subCmd or (subCmd[0] != "!" and subCmd in command)):
+				#turns the message into the arguments to pass to the plugin
+				if subCmd[0] == '!':
+	        	                message=message[len(subCmd)+1:]
+				else:
+					message=message[len(subCmd):]
 
-                        try:
-                                #Only cmd that should not be in plugins is !help
-                                if pluginCmd == "!help":
-					print "this"
-                                        return help()
-				if pluginCmd == "!reloadmodules":
-					print "hit"
-					return str(plugins)+reloadModules()
-				if pluginCmd == "!reloadplugins":
-					return str(plugins)+reloadModules()
-                                else:
-                                        #If commands match
-                                        if pluginCmd == plugins[count].getCmd():
-                                               
-                                                #Check how many arguments the method takes
-                                                if plugins[count].getArgs() == 1:
-							#If plugin uses any encoding other than ASCII
-							if plugins[count].hasEncodings():
-                                                        	reply = plugins[count].do(message)
-                                                        	return ("%s" % reply).encode('UTF-8')
-							else:
-								reply = plugins[count].do(message)
-                                                                return reply
-						if plugins[count].getArgs() > 1:
-							#If any plugin needs SDK functions, args must be > 1
-							#If plugin uses any encoding other than ASCII
-                                                        if plugins[count].hasEncodings():
-                                                                reply = plugins[count].do(message, optionsList)
-                                                                return ("%s" % reply).encode('UTF-8')
-                                                        else:
-                                                                reply = plugins[count].do(message, optionsList)
-                                                                return reply	
-                                                else :
-							if plugins[count].hasEncodings():
-	                                                        reply = plugins[count].do()      
-        	                                                return ("%s" % reply).encode('UTF-8')
-							else:
-								reply = plugins[count].do()
-                                                                return reply
-                        except Exception as e:
-                                print "Error occurred..."
-				err = traceback.print_exc()
-                                print err
+                	        try:
+                        	        #Only cmd that should not be in plugins is !help
+                                	if subCmd == ["!help"]:
+        	                                return help()
+                	                else:
+                        	                #If commands match
+                                        	if subCmd in plugins[count].getCmd():
+							
+							#Tell the plugin which command was used to call it
+                                             		if len(pluginCmd) > 1:
+								message = [message, subCmd]  
+                                                	
+							#Check how many arguments the method takes
+	                                                if plugins[count].getArgs() == 1:
+								#If plugin uses any encoding other than ASCII
+								if plugins[count].hasEncodings():
+                        	                                	reply = plugins[count].do(message)
+                                	                        	return ("%s" % reply).encode('UTF-8')
+								else:
+									reply = plugins[count].do(message)
+                                                        	        return reply
+							if plugins[count].getArgs() > 1:
+								#If any plugin needs SDK functions, args must be > 1
+								#If plugin uses any encoding other than ASCII
+                        	                                if plugins[count].hasEncodings():
+                                	                                reply = plugins[count].do(message, optionsList)
+                                        	                        return ("%s" % reply).encode('UTF-8')
+                                                	        else:
+                                                        	        reply = plugins[count].do(message, optionsList)
+                                                                	return reply	
+	                                                else :
+								if plugins[count].hasEncodings():
+	        	                                                reply = plugins[count].do()      
+        	        	                                        return ("%s" % reply).encode('UTF-8')
+								else:
+									reply = plugins[count].do()
+                                                	                return reply
+	                        except Exception as e:
+        	                        print "Error occurred..."
+					err = traceback.print_exc()
+                        	        print err
 
-                                return "Error Occurred. \n\n"+traceback.format_exc()
+                                	return "Error Occurred. \n\n"+traceback.format_exc()
 
-                count = count+1
+		count = count+1
 
 
 def help():

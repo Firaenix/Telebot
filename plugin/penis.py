@@ -12,7 +12,7 @@ def do():
 	return qtmessage
 
 def getCmd():
-	return "!penis"
+	return ["!penis"]
 
 def getArgs():
 	return 0

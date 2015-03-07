@@ -13,7 +13,7 @@ def do():
 	return "CPU: " + cpustring + "\n" + "Kernel: " + kernstring
 
 def getCmd():
-        return "!sysinfo"
+        return ["!sysinfo"]
 
 def getArgs():
         return 0

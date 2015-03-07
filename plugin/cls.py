@@ -13,7 +13,7 @@ def do():
         return message
 
 def getCmd():
-        return "!cls"
+        return ["!cls"]
 
 def getArgs():
         return 0

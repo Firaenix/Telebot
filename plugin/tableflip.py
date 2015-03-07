@@ -12,7 +12,7 @@ def do():
 	return qtmessage
 
 def getCmd():
-	return "!flip"
+	return ["!flip"]
 
 def getArgs():
 	return 0

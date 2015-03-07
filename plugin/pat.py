@@ -14,7 +14,7 @@ def do():
 	return qtmessage
 
 def getCmd():
-	return "!pat"
+	return ["!pat"]
 
 def getArgs():
 	return 0

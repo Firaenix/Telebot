@@ -12,7 +12,7 @@ def do(msg):
         return cb.ask(msg)
 
 def getCmd():
-        return "!cb"
+        return ["!cb"]
 
 def getArgs():
         return 1

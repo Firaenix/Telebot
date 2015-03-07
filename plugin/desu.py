@@ -15,7 +15,7 @@ def do():
 	return desuList[randomInt]
 
 def getCmd():
-        return "!desu"
+        return ["!desu"]
 
 def getArgs():
         return 0

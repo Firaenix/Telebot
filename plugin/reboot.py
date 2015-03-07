@@ -19,7 +19,7 @@ def restart_program():
     os.execl(python, python, * sys.argv)
 
 def getCmd():
-        return "!reboot"
+        return ["!reboot"]
 
 def getArgs():
         return 0

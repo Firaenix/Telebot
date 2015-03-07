@@ -17,7 +17,7 @@ def help():
 	return "!interject string: returns interjection"
 
 def getCmd():
-	return "!interject"
+	return ["!interject"]
 
 def getArgs():
 	return 1

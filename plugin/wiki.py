@@ -30,7 +30,7 @@ def do(term):
         return response
 
 def getCmd():
-        return "!wiki"
+        return ["!wiki"]
 
 def getArgs():
         return 1

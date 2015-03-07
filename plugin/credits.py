@@ -13,7 +13,7 @@ def do():
         return credits
 
 def getCmd():
-        return "!credits"
+        return ["!credits"]
 
 def getArgs():
         return 0

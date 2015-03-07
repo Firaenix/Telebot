@@ -22,7 +22,7 @@ def do():
 	return str1
 
 def getCmd():
-	return "!finger"
+	return ["!finger"]
 
 def getArgs():
 	return 0

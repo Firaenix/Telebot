@@ -41,7 +41,7 @@ def do(args):
 
 
 def getCmd():
-        return "!8ball"
+        return ["!8ball"]
 
 def getArgs():
         return 1

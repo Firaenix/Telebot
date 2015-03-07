@@ -47,7 +47,7 @@ def help():
   return "!ud string: returns urban dictionary definition of a word"
 
 def getCmd():
-  return "!ud"
+  return ["!ud"]
 
 def getArgs():
   return 1
