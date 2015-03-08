@@ -46,6 +46,7 @@ Remove them from the plugins folder respectively
 * Slew of new plugins.
 * Lots of engine improvements!
 * + Everything else I've forgotten to mention.
+* Can now add whatever native telegram functionality to the plugins with the new SDK!
 
 ## Commands ##
 
@@ -78,11 +79,7 @@ Firaenix - Massive overhauls, majority of work.
 Hexane_ - Improvements, Plugins.
 
 ## TODO ##
-- Integrate more tightly into Telegram CLI/API 
+- Write some proper documentation
 - Remove rest of asdofindia's code, replace with Telegram API python wrapper. 
-- Move contents of bot.py into a class 
-- Create new .py script to create object of bot for each group the bot joins. 
-- Test multiple group support.
+- Move contents of bot.py into a class - MOSTLY DONE
 - Implement IRC-like permissions system
-- Enable peer/group name passing to modules.
-- Refactor modules to enable list containing name eg. ['!wolf', '!wolfram']
