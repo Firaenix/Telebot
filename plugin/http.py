@@ -21,9 +21,9 @@ def help():
 
 def do(message,  optionsList):
 	#Plugins with multiple cmds return the message and the command which called it
-	httpscheme = message[1]
-	message = message[0]
-
+	httpscheme = message[1].lower()
+	message = message[0].split(' ')[0]
+	
 	link = httpscheme+message
 	data = None
 	try:
@@ -57,8 +57,8 @@ def get_content_type(data):
 def get_file_size(data):
         info = data.info()
 	print "Content-Length: "+info['Content-Length']
-
-	return int(info['Content-Length'])
+	# Super ugly way of converting to float to 2 decimal places
+	return round((((int(info['Content-Length']))/1000.0)/1000.0), 2)
 
 def title(urlLink, data, optionsList):
 	page = BeautifulSoup(urllib2.urlopen(urlLink))
@@ -81,7 +81,7 @@ def send_doc(urlLink, data, optionsList):
 	                output.close()
 
 	        sdk.group.send_doc(optionsList[1], saveDir, optionsList[0])
-	        return "File Size: "+str(file_size)+" bytes\n\nDocument downloaded to: \n"+output.name
+	        return "File Size: "+str(file_size)+" MB\n\nDocument downloaded to: \n"+output.name
 	
 	return "Document is too large to download (> 10 MiB)"
 
@@ -99,7 +99,7 @@ def send_video(urlLink, data, optionsList):
                         output.close()
 
                 sdk.group.send_video(optionsList[1], saveDir, optionsList[0])
-                return "File Size: "+str(file_size)+" bytes\n\nVideo downloaded to: \n"+output.name
+                return "File Size: "+str(file_size)+" MB\n\nVideo downloaded to: \n"+output.name
 
         return "Video is too large to download (> 10 MiB)"
 
@@ -118,7 +118,7 @@ def send_pic(urlLink, data, optionsList):
 	                output.close()
 
 	        sdk.group.send_image(optionsList[1], saveDir, optionsList[0])
-	        return "File Size: "+str(file_size)+" bytes\n\nPicture downloaded to: \n"+output.name
+	        return "File Size: "+str(file_size)+" MB\n\nPicture downloaded to: \n"+output.name
 	
 	return "Picture is too large to download (> 10 MiB)"
 

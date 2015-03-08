@@ -26,7 +26,7 @@ def do(msg, optionsList):
 	#optionsList[0] == tgin, [1] = group [2] = peer/user
         sdk.media.send_doc(optionsList[1], etcDir+dlFile, optionsList[0])
 
-        return "Butthurt!\nhttps://i.imgur.com/wKdzqtX.gif"
+#        return "Butthurt!\nhttps://i.imgur.com/wKdzqtX.gif"
 
 def getCmd():
         return ["!butthurt"]

@@ -83,12 +83,11 @@ def callmodule(message, optionsList):
 
                 	        try:
                         	        #Only cmd that should not be in plugins is !help
-                                	if subCmd == ["!help"]:
+                                	if subCmd == "!help":
         	                                return help()
                 	                else:
                         	                #If commands match
-                                        	if subCmd in plugins[count].getCmd():
-							
+                                        	if subCmd.lower() in plugins[count].getCmd():
 							#Tell the plugin which command was used to call it
                                              		if len(pluginCmd) > 1:
 								message = [message, subCmd]  
@@ -101,7 +100,7 @@ def callmodule(message, optionsList):
                                 	                        	return ("%s" % reply).encode('UTF-8')
 								else:
 									reply = plugins[count].do(message)
-                                                        	        return reply
+                                                       	        	return reply
 							if plugins[count].getArgs() > 1:
 								#If any plugin needs SDK functions, args must be > 1
 								#If plugin uses any encoding other than ASCII
@@ -110,7 +109,7 @@ def callmodule(message, optionsList):
                                         	                        return ("%s" % reply).encode('UTF-8')
                                                 	        else:
                                                         	        reply = plugins[count].do(message, optionsList)
-                                                                	return reply	
+	                                                                return reply	
 	                                                else :
 								if plugins[count].hasEncodings():
 	        	                                                reply = plugins[count].do()      

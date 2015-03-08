@@ -27,12 +27,13 @@ def send_msg(group,peer,message, tgin):
                                 temp.write(message)
                                 temp.close()
 				
-				if temp is not None:
+				if not temp == None:
 					cliInput.write(tgin, 'send_text', ' '.join([peer.replace(' ', '_'), tempfile.encode('UTF-8')])+'\n')
                         except Exception as e:
 				print "Error occurred..."
                                 print traceback.print_exc()
                 else:
-			cliInput.write(tgin, 'msg', ' '.join([peer.replace(' ', '_'), message])+'\n')
+			if not message == None:
+				cliInput.write(tgin, 'msg', ' '.join([peer.replace(' ', '_'), message])+'\n')
                 return message
 
