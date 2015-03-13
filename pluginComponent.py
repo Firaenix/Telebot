@@ -74,7 +74,7 @@ def callmodule(message, optionsList):
         count = 0
         for pluginCmd in pluginCmds:
 		for subCmd in pluginCmd:
-	                if (command == subCmd or (subCmd[0] != "!" and subCmd in command)):
+	                if (command.lower() == subCmd or (subCmd[0] != "!" and subCmd in command.lower())):
 				#turns the message into the arguments to pass to the plugin
 				if subCmd[0] == '!':
 	        	                message=message[len(subCmd)+1:]

@@ -27,9 +27,13 @@ def do(message,  optionsList):
 	link = httpscheme+message
 	data = None
 	try:
-                data = urllib2.urlopen(link)
+		header = {'User-Agent' : "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (FM Scene 4.6.1)"}
+		request = urllib2.Request(link, None, header)
+                data = urllib2.urlopen(request)
         except urllib2.URLError, e:
-                return "Please specify a valid URL."
+		return e
+	except urllib2.HTTPError, e:
+		return e
 
 	content_type = get_content_type(data)
 	print content_type
