@@ -17,6 +17,7 @@ output
 notes
 temp
 unixfile
+*.core
 
 # Directories #
 ###############

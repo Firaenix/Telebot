@@ -39,7 +39,7 @@ def disgusting(optionsList):
 #        return "Absolutely disgusting."
 
 def getCmd():
-        return ["disgusting"]
+        return ["disgubbin","disgusting"]
 
 def getArgs():
         return 2

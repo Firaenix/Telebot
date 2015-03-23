@@ -8,8 +8,10 @@ import os
 def help():
         return "!reboot : Restarts the bot"
 
-def do():
-	restart_program()
+def do(message, optionsList):
+	temp_dev_list = ["Nick Carton", "Steve Ball"]
+	if any(dev in optionsList[2] for dev in temp_dev_list):
+		restart_program()
 
 def restart_program():
     """Restarts the current program.
@@ -22,7 +24,7 @@ def getCmd():
         return ["!reboot"]
 
 def getArgs():
-        return 0
+        return 2
 
 def hasEncodings():
 	return False

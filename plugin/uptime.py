@@ -23,8 +23,20 @@ def do():
 	dt2 = datetime.datetime.fromtimestamp(int(currentTime)) # 1977-06-07 23:44:50
 	rd = dateutil.relativedelta.relativedelta (dt2, dt1)
 
-	print "%d years, %d months, %d days, %d hours, %d minutes and %d seconds" % (rd.years, rd.months, rd.days, rd.hours, rd.minutes, rd.seconds)
-	return "Uptime: " + "%d days, %d hours, %d minutes and %d seconds" % (rd.days, rd.hours, rd.minutes, rd.seconds)
+	message = "Uptime: "
+
+	if rd.years > 0:
+		message = message + "%d years, " % rd.years
+	if rd.months > 0:
+		message = message + "%d months, " % rd.months
+	if rd.days > 0:
+		message = message + "%d days, " % rd.days
+	if rd.hours > 0:
+		message = message + "%d hours, " % rd.hours
+	if rd.minutes > 0:
+		message = message + "%d minutes, " % rd.minutes
+	message = message + "%d seconds" % rd.seconds
+	return message
 
 def getCmd():
 	return ["!uptime"]

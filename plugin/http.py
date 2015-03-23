@@ -28,7 +28,7 @@ def do(message,  optionsList):
 	data = None
 	try:
 		header = {'User-Agent' : "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (FM Scene 4.6.1)"}
-		request = urllib2.Request(link, None, header)
+		request = urllib2.Request(link, None ,header)
                 data = urllib2.urlopen(request)
         except urllib2.URLError, e:
 		return e
@@ -38,13 +38,13 @@ def do(message,  optionsList):
 	content_type = get_content_type(data)
 	print content_type
 	if content_type == "text":
-		return title(link, data, optionsList)
+		return title(link, request, data, optionsList)
 	elif content_type == "image" :
-		return send_pic(link, data, optionsList)
+		return send_pic(link, request, data, optionsList)
 	elif content_type == "video":
-		return send_video(link, data, optionsList)
+		return send_video(link, request, data, optionsList)
 	elif not "ERROR" in content_type: #Any other File type
-		return send_doc(link, data, optionsList)
+		return send_doc(link, request, data, optionsList)
 
 	return content_type
 
@@ -64,21 +64,24 @@ def get_file_size(data):
 	# Super ugly way of converting to float to 2 decimal places
 	return round((((int(info['Content-Length']))/1000.0)/1000.0), 2)
 
-def title(urlLink, data, optionsList):
-	page = BeautifulSoup(urllib2.urlopen(urlLink))
+def title(urlLink, request, data, optionsList):
+	try:
+		page = BeautifulSoup(urllib2.urlopen(request))
+	except urllib2.HTTPError, e:
+		return e
 	try:
 		return page.title.string
 	except:
 		#If recieve a text file or a file that doesnt have a title, send the file itself
-		return send_doc(urlLink, data, optionsList)
+		return send_doc(urlLink, request, data, optionsList)
 
-def send_doc(urlLink, data, optionsList):
+def send_doc(urlLink, request, data, optionsList):
 	file_size = get_file_size(data)
-	if not file_size > 10485760:
+	if not file_size > 10:
 	        #Get the file name+extension
 	        saveDir = etcDir+urlLink.split('/')[-1]
 	        #Save image to disk
-	        imgData = urllib2.urlopen(urlLink).read()
+	        imgData = urllib2.urlopen(request).read()
 	        output = open(saveDir, 'wb+')
 	        if not output.closed:
 	                output.write(imgData)
@@ -90,13 +93,13 @@ def send_doc(urlLink, data, optionsList):
 	return "Document is too large to download (> 10 MiB)"
 
 
-def send_video(urlLink, data, optionsList):
+def send_video(urlLink, request, data, optionsList):
         file_size = get_file_size(data)
-        if not file_size > 10485760:
+        if not file_size > 10:
                 #Get the file name+extension
                 saveDir = etcDir+urlLink.split('/')[-1]
                 #Save image to disk
-                imgData = urllib2.urlopen(urlLink).read()
+                imgData = urllib2.urlopen(request).read()
                 output = open(saveDir, 'wb+')
                 if not output.closed:
                         output.write(imgData)
@@ -108,14 +111,14 @@ def send_video(urlLink, data, optionsList):
         return "Video is too large to download (> 10 MiB)"
 
 
-def send_pic(urlLink, data, optionsList):
+def send_pic(urlLink, request, data, optionsList):
 	file_size = get_file_size(data)
-        if not file_size > 10485760:
+        if not file_size > 10:
 	        #Get the file name, add png for case where url has no extension
 	        saveDir = etcDir+urlLink.split('/')[-1].split('.')[0]+".png"		
 
 	        #Save image to disk
-	        imgData = urllib2.urlopen(urlLink).read()
+	        imgData = urllib2.urlopen(request).read()
 	        output = open(saveDir, 'wb+')
 	        if not output.closed:
 	                output.write(imgData)
