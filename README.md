@@ -33,6 +33,16 @@ A couple of things need to be edited prior to starting the bot.
 Within bot.py the path to the telegram client needs to be changed within the pathtotg variable. By default it is '../tg/'
 /plugin/wolf.py needs a valid app id to work. This can be obtained on the developer section of the Wolfram website.
 
+### REQUIRED PYTHON MODULES ###
+Install these plugins globally
+
+- wikipedia.py for Wiki plugin
+- tungsten.py for Wolfram plugin
+- BeautifulSoup4 for multiple plugins
+- python-dateutil for uptime plugin
+- psutil for sysinfo plugin
+- requests,pybingsearch for search plugin
+
 ### Disabling modules ###
 Remove them from the plugins folder respectively
 
