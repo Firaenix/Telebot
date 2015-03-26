@@ -23,10 +23,13 @@ def do(message, optionsList):
 	print args
 	if cmd == 'rename':
 		return rename(args, optionsList)
-	if cmd == 'set_pic':
+	if cmd.lower() == 'set_pic' or cmd.lower() == 'setpic':
 		return set_pic(args, optionsList)
 	#optionsList[0] = tgin, optionsList[1] = group, optionsList[2] = peer/user
-	return "Please specify a group command."
+	return """Please specify a group command:
+		!group rename [name]
+		!group set_pic [url]
+	       """
 
 def rename(name, optionsList):
 	print name
