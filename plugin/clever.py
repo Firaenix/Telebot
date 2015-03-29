@@ -2,7 +2,7 @@
 # CleverBot Plugin							  #
 # Hexane								  #
 ###########################################################################
-from libraries import cleverbot
+import cleverbot
 
 def help():
         return "!cb [message]: Returns response from cleverbot"

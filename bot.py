@@ -178,6 +178,8 @@ def bot():
 def cleanupFiles():
 	#clean up downloads directory
 	folder = etcDir+'downloads/'
+	if not os.path.exists(folder):
+		os.makedirs(folder)
 	for the_file in os.listdir(folder):
 	        file_path = os.path.join(folder, the_file)
 		print file_path
