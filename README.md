@@ -42,6 +42,7 @@ Install these plugins globally
 - python-dateutil for uptime plugin
 - psutil for sysinfo plugin
 - requests,pybingsearch for search plugin
+- cleverbot for clever.py
 
 ### Disabling modules ###
 Remove them from the plugins folder respectively
