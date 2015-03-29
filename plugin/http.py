@@ -90,7 +90,7 @@ def send_doc(urlLink, request, data, optionsList):
 	        sdk.group.send_doc(optionsList[1], saveDir, optionsList[0])
 	        return "File Size: "+str(file_size)+" MB\n\nDocument downloaded to: \n"+output.name
 	
-	return "Document is too large to download (> 10 MiB)"
+	return "Document is too large to download (" + file_size + " MiB)"
 
 
 def send_video(urlLink, request, data, optionsList):
@@ -108,7 +108,7 @@ def send_video(urlLink, request, data, optionsList):
                 sdk.group.send_video(optionsList[1], saveDir, optionsList[0])
                 return "File Size: "+str(file_size)+" MB\n\nVideo downloaded to: \n"+output.name
 
-        return "Video is too large to download (> 10 MiB)"
+        return "Video is too large to download (" + file_size + " MiB)"
 
 
 def send_pic(urlLink, request, data, optionsList):
@@ -127,7 +127,7 @@ def send_pic(urlLink, request, data, optionsList):
 	        sdk.group.send_image(optionsList[1], saveDir, optionsList[0])
 	        return "File Size: "+str(file_size)+" MB\n\nPicture downloaded to: \n"+output.name
 	
-	return "Picture is too large to download (> 10 MiB)"
+	return "Picture is too large to download (" + file_size + " MiB)"
 
 def getCmd():
         return ["http://", "https://"]
