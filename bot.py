@@ -13,26 +13,20 @@ import subprocess
 import os
 from multiprocessing.pool import ThreadPool
 
+# SDK and bot related modules
 from sdk import msg
-#from sdk import stacktrace
 import pluginComponent
 
+# global variables
 _pathtotg='../tg/bin/'    #include trailing slash. I don't know if '~' notation works
-lastmessage=''
-_proc=None
-tgin=None
-spacer = "_____________________"
-globalGroup = ""
-#Set # of max threads at once 'processes=###'
-pool = ThreadPool(processes=100)
-errorGroup = ""
-errorPeer = "Error"
 etcDir = "plugin/etc/"
 
+pool = ThreadPool(processes=100)
+_proc=None
+tgin=None
 
-pluginCmds = []
-plugins = []
-helpString = 'All possible commands:'
+lastmessage=''
+globalGroup = ""
 
 
 #this function checks for spam by comparing current message to last message
@@ -112,7 +106,7 @@ def bot():
 	tgin = _proc.stdin
 	lastmessage=None
 	multiline=False
-	
+		
 	for line in iter(_proc.stdout.readline,''):
 		if multiline and line != None and message != None:
 			message+=line
@@ -126,49 +120,49 @@ def bot():
 			#Outputs all text chat
 			#NECESSARY FOR PROCESSING COMMANDS, ETC.
 			print line.rstrip()
-		with open('output','a') as fil:
-			fil.write(line)
-			group=None
-			peer=None
-			message=None
+
+		group=None
+		peer=None
+		message=None
 				
-			try:                     	
-				#Checks the colour of the stdout line
-				if ((COLOR_BLUE+" >>>" in line) and (COLOR_BLUE+"[" in line) and ("!" in line)):
-					peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
-					message=line.split(COLOR_BLUE+" >>> ")[1].split("\033")[0]
-					if not line.endswith("[0m\n"):
-						multiline=True
-				if ((COLOR_GREEN+" >>>" in line) and ("!" in line)):
-					group=line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
-					#For change colour level
-					#peer=line.split(COLOR_REDB)[1].split(COLOR_RED)[0]
+		try:                     	
+			#Checks the colour of the stdout line
+			if ((COLOR_BLUE+" >>>" in line) and (COLOR_BLUE+"[" in line) and ("!" in line)):
+				peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
+				message=line.split(COLOR_BLUE+" >>> ")[1].split("\033")[0]
+				if not line.endswith("[0m\n"):
+					multiline=True
 
-					peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
-					message=line.split(COLOR_GREEN+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
-					if not line.endswith("[0m\n"):
-						multiline=True
-				if ((COLOR_BLUE+" >>>" in line) and (COLOR_MAGENTA+"[" in line)):
-					group=line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
-					globalGroup = group	
+			if ((COLOR_GREEN+" >>>" in line) and ("!" in line)):
+				group=line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
+				#For change colour level
+				#peer=line.split(COLOR_REDB)[1].split(COLOR_RED)[0]
+				peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
+				message=line.split(COLOR_GREEN+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
+				if not line.endswith("[0m\n"):
+					multiline=True
+		
+			if ((COLOR_BLUE+" >>>" in line) and (COLOR_MAGENTA+"[" in line)):
+				group=line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
+				globalGroup = group	
 					
-					#Splits the line to display the user name.
-					#The username is displayed after the group name, separated my the letter 'm' Always,
-					#Then strip the " [0" Which is displayed after the username.
-					#rstrip() to remove final whitespace
+				#Splits the line to display the user name.
+				#The username is displayed after the group name, separated my the letter 'm' Always,
+				#Then strip the " [0" Which is displayed after the username.
+				#rstrip() to remove final whitespace
 
-					peer=line.split(group)[1].split('m')[2].strip('[0').rstrip()
+				peer=line.split(group)[1].split('m')[2].strip('[0').rstrip()
 
-					message=line.split(COLOR_BLUE+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
-					if not line.endswith("[0m\n"):
-						multiline=True
-				if COLOR_GREY in line and "*** Lost connection to server..." in line:
-					print "Detected connection to server loss, restarting bot..."
-                                	#If the bot loses connection, restart the bot.
-					subprocess.call('killall python2.7; killall telegram-cli; python bot.py')
+				message=line.split(COLOR_BLUE+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
+				if not line.endswith("[0m\n"):
+					multiline=True
+			if COLOR_GREY in line and "*** Lost connection to server..." in line:
+				print "Detected connection to server loss, restarting bot..."
+                               	#If the bot loses connection, restart the bot.
+				subprocess.call('killall python2.7; killall telegram-cli; python bot.py')
 
-			except IndexError:
-				print "Error: Change colour levels"
+		except IndexError:
+			print "Error: Change colour levels"
 		#Calls the AI function to read the input, from there, calls the plugins
 		if( ((group is not None) or (peer is not None)) and (message is not None)):
 			#adds the command to a new thread
@@ -188,17 +182,7 @@ def cleanupFiles():
 				print 'deleting'
 		        	os.remove(file_path)
 		except Exception, e:
-        		print e
-
-	try:
-		os.remove('output')
-	except OSError:
-	        pass
-	
-
-def help():
-	print helpString
-	return helpString
+        		print e	
 	
 def main():
 	#cleans up the files on every run
