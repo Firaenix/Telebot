@@ -28,14 +28,15 @@ def memory_usage():
 
 def get_freespace():	
 	dir = "/"
-	s = os.statvfs(dir)
+	usage = psutil.disk_usage(dir)
+
 	#return megabytes
-	space = ((s.f_bavail * s.f_frsize)*2**-20)
-	total = ((s.f_blocks * s.f_frsize)*2**-20)
+	space = ((usage.used)*2**-20)
+	total = ((usage.total)*2**-20)
 
 	percentage = ((space/total)*100)	
 	output = round(percentage,2)
-	return str(int(space)) + "MB/" + str(int(total)) + "MB  (Usage: " + str(output) + "%)"
+	return str(int(space)) + "MB/" + str(int(total)) + "MB  (" + str(output) + "%)"
 
 def get_server_time():
 	return "Current Server Date: "+time.strftime("%A %d, %B %Y")+"\n"+"Current Server Time: " + time.strftime("%H:%M:%S")
