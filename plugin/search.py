@@ -11,33 +11,17 @@ def help():
         return ( "!search \"[terms]\" [limit]  \n "
         		 "search the interwebs and return a specified number of results (3 by default)")
 
-def do(args):
+def do(query):
 	apiKey = 'l3iLSqvL/7Yzn29rUsP7akKjyf9AZnTVlE8zAvnYp/k'
 	bing = PyBingSearch(apiKey)
+	resultLimit = 3
 
-	errorString = "Syntax Error. See !help."
+        # "#\d+$" = Match # followed by 1 or more numbers, no characters
+        if len(re.findall(r"#\d+$", query)) > 0:
+                resultLimit = re.search(r"#\d+$", query).group(0).replace("#", "")
+                query = re.split(r"#\d+$", query)[0]
 
-	argString = args
-
-	termMatch = re.search('\"(.+)\"', argString)
-	if termMatch:
-		result = termMatch.group()
-		query = result[1:-1]
-		print('query is: ' + query)
-	else:
-		return errorString
-
-	# better way to remove substring from a string?
-	argString = argString.replace(result, '')
-
-	limitMatch = re.search('\d+', argString)
-	if limitMatch:
-		limit = limitMatch.group()
-		print('limit is: ' + limit)
-	else:
-		limit = 3
-
-	result_list, next_uri = bing.search(query, limit=3, format='json')
+	result_list, next_uri = bing.search(query, limit=resultLimit, format='json')
 
 	returnText = ""
 
@@ -48,7 +32,7 @@ def do(args):
 		returnText += title + "\n" + desc + "\n" + url + "\n\n"
 
 	if len(returnText) == 0:
-		return "No Results. \nWere you looking up "+args+" you filthy person?"
+		return "No Results. \nWere you looking up " + query + " you filthy person?"
 	
 	return "%s" % returnText
 	
