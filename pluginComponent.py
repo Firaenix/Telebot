@@ -34,6 +34,7 @@ def getPlugins(firstRun):
         for fname in glob.glob(path):
 		plugin_path = fname.split(".py")[0]
                 package_plugin = plugin_path.replace("/", ".")
+
                 if(package_plugin != "plugin.__init__"):
                         try:
                                 print package_plugin
@@ -67,13 +68,12 @@ def importPlugins(name):
     mod = __import__(name, fromlist=[''])
     return mod
 	
-
-
 def callmodule(message, optionsList):
         command = message.split(' ')[0]
         count = 0
         for pluginCmd in pluginCmds:
 		for subCmd in pluginCmd:
+
 	                if (command.lower() == subCmd or (subCmd[0] != "!" and subCmd in command.lower())):
 				#turns the message into the arguments to pass to the plugin
 				if subCmd[0] == '!':

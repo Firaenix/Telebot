@@ -38,9 +38,9 @@ def mymessage(message):
 	else:
 		return False
 
-def AI(group,peer,message):
-	
+def AI(group,peer,message):	
 	#if using caps, plugin still called.
+
 	messagelist = message.split(" ");
 	if "!" in messagelist[0]:
 		messagelist[0] = messagelist[0].lower()
@@ -54,9 +54,7 @@ def AI(group,peer,message):
 		reply=None
 		if group is None:
 			replyrequired=True
-		
-		#global proc
-		#proc.stdin.flush()
+
 		tgin = _proc.stdin
 		reply= pluginComponent.callmodule(message, [tgin, group, peer])
 
@@ -78,10 +76,8 @@ def spam(message):
 #Returns the message back to the group.
 def submit_msg(group,peer,message, tgin):
 	global lastmessage
-#	console.log('tgin: '+tgin)
-#	global tgin
-#	global _proc
 	tgin = _proc.stdin
+
 	lastmessage = msg.send_msg(group, peer, message, tgin)
 
 #Reading all input, reads colours of text to determine where message is sent from.

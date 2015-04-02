@@ -20,7 +20,7 @@ def do(args):
 		title = "%s" % result_list[i].title
 		desc = "%s" % result_list[i].description
                 url = "%s" % result_list[i].url
-		returnText += title + "\n" + desc + "\n" + url + "\n\n"
+		returnText += title + "\n"  + desc[:65].strip() + "...\n" + url + "\n\n"
 
 	if len(returnText) == 0:
 		return "No Results. \nWere you looking up "+args+" you filthy person?"
