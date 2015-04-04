@@ -18,14 +18,14 @@ from sdk import msg
 import pluginComponent
 
 # global variables
-_pathtotg='../tg/bin/'    #include trailing slash. I don't know if '~' notation works
+_pathtotg = '../tg/bin/'    #include trailing slash. I don't know if '~' notation works
 etcDir = "plugin/etc/"
 
 pool = ThreadPool(processes=100)
-_proc=None
-tgin=None
+_proc = None
+tgin = None
 
-lastmessage=''
+lastmessage = ''
 globalGroup = ""
 
 
@@ -39,9 +39,8 @@ def mymessage(message):
 		return False
 
 def AI(group,peer,message):	
-	#if using caps, plugin still called.
-
 	messagelist = message.split(" ");
+
 	if "!" in messagelist[0]:
 		messagelist[0] = messagelist[0].lower()
 
@@ -49,20 +48,19 @@ def AI(group,peer,message):
 
 	try:
 		if mymessage(message):
-			return
-		replyrequired=False
-		reply=None
+			return None
+		replyrequired = False
+		reply = None
 		if group is None:
-			replyrequired=True
+			replyrequired = True
 
 		tgin = _proc.stdin
-		reply= pluginComponent.callmodule(message, [tgin, group, peer])
+		reply = pluginComponent.callmodule(message, [tgin, group, peer])
 
 		if reply is not None:
 			tgin = _proc.stdin
 			submit_msg(group,peer,reply, tgin)
-	except:			
-		print "Error occurred..."
+	except:
                 err = traceback.print_exc()
 		tgin = _proc.stdin
 		submit_msg(group, peer, err, tgin)
@@ -76,40 +74,40 @@ def spam(message):
 #Returns the message back to the group.
 def submit_msg(group,peer,message, tgin):
 	global lastmessage
-	tgin = _proc.stdin
 
+	tgin = _proc.stdin
 	lastmessage = msg.send_msg(group, peer, message, tgin)
 
 #Reading all input, reads colours of text to determine where message is sent from.
 def bot():
-
-	COLOR_RED="\033[0;31m"
-	COLOR_REDB="\033[1;31m"
-	COLOR_NORMAL="\033[0m"
-	COLOR_GREEN="\033[32;1m"
-	COLOR_GREY="\033[37;1m"
-	COLOR_YELLOW="\033[33;1m"
-	COLOR_BLUE="\033[34;1m"
-	COLOR_MAGENTA="\033[35;1m"
-	COLOR_CYAN="\033[36;1m"
-	COLOR_LCYAN="\033[0;36m"
-	COLOR_INVERSE="\033[7m"
+	COLOR_RED = "\033[0;31m"
+	COLOR_REDB = "\033[1;31m"
+	COLOR_NORMAL = "\033[0m"
+	COLOR_GREEN = "\033[32;1m"
+	COLOR_GREY = "\033[37;1m"
+	COLOR_YELLOW = "\033[33;1m"
+	COLOR_BLUE = "\033[34;1m"
+	COLOR_MAGENTA = "\033[35;1m"
+	COLOR_CYAN = "\033[36;1m"
+	COLOR_LCYAN = "\033[0;36m"
+	COLOR_INVERSE = "\033[7m"
 	
-	#global pathtotg
 	global _proc
 	global _tgin
+
 	_proc = subprocess.Popen([_pathtotg+'telegram-cli','-k',_pathtotg+'../tg-server.pub'],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
 	tgin = _proc.stdin
-	lastmessage=None
-	multiline=False
+	lastmessage = None
+	multiline = False
 		
 	for line in iter(_proc.stdout.readline,''):
 		if multiline and line != None and message != None:
-			message+=line
+			message += line
 			message = message.decode("UTF-8")
+	
 			if line.endswith('[0m\n'):
-				message=message.rstrip('[0m\n')
-				multiline=False
+				message = message.rstrip('[0m\n')
+				multiline = False
 		else:
 			if ((COLOR_YELLOW+" is now online" in line) or (COLOR_YELLOW+" is now offline" in line) or (COLOR_YELLOW+": 0 unread" in line)):
 				pass
@@ -117,26 +115,26 @@ def bot():
 			#NECESSARY FOR PROCESSING COMMANDS, ETC.
 			print line.rstrip()
 
-		group=None
-		peer=None
-		message=None
+		group = None
+		peer = None
+		message = None
 				
 		try:                     	
 			#Checks the colour of the stdout line
 			if ((COLOR_BLUE+" >>>" in line) and (COLOR_BLUE+"[" in line) and ("!" in line)):
-				peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
-				message=line.split(COLOR_BLUE+" >>> ")[1].split("\033")[0]
+				peer = line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
+				message = line.split(COLOR_BLUE+" >>> ")[1].split("\033")[0]
+
 				if not line.endswith("[0m\n"):
-					multiline=True
+					multiline = True
 
 			if ((COLOR_GREEN+" >>>" in line) and ("!" in line)):
-				group=line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
-				#For change colour level
-				#peer=line.split(COLOR_REDB)[1].split(COLOR_RED)[0]
-				peer=line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
-				message=line.split(COLOR_GREEN+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
+				group = line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
+				peer = line.split(COLOR_RED)[1].split(COLOR_NORMAL)[0]
+				message = line.split(COLOR_GREEN+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
+
 				if not line.endswith("[0m\n"):
-					multiline=True
+					multiline = True
 		
 			if ((COLOR_BLUE+" >>>" in line) and (COLOR_MAGENTA+"[" in line)):
 				group=line.split(COLOR_MAGENTA)[2].split(COLOR_NORMAL)[0]
@@ -147,11 +145,11 @@ def bot():
 				#Then strip the " [0" Which is displayed after the username.
 				#rstrip() to remove final whitespace
 
-				peer=line.split(group)[1].split('m')[2].strip('[0').rstrip()
+				peer = line.split(group)[1].split('m')[2].strip('[0').rstrip()
 
-				message=line.split(COLOR_BLUE+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
+				message = line.split(COLOR_BLUE+" >>> ")[1].strip(COLOR_NORMAL).split("\033")[0]
 				if not line.endswith("[0m\n"):
-					multiline=True
+					multiline = True
 			if COLOR_GREY in line and "*** Lost connection to server..." in line:
 				print "Detected connection to server loss, restarting bot..."
                                	#If the bot loses connection, restart the bot.
