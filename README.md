@@ -1,6 +1,8 @@
 Telebot
 ===================
 
+[![Join the chat at https://gitter.im/Hexane/Telebot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Hexane/Telebot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Telegram bot written in Python which is loosely basted off of the work from asdofindia. Heavily modified by @Firaenix & @Hexane_ with lots of improvements!
 
 
