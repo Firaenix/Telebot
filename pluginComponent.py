@@ -53,16 +53,13 @@ def getPlugins(firstRun):
                                 pluginCmds.append(cmds)
 
                                 #On start up, adds the help text to the string
-                                s = module.help()
-					
+                                s = module.help()					
                                
                                 helpString += "\n"+ s
                         except Exception as e:
                                 print traceback.print_exc()
 
         pluginCmds.append(["!help"])
-	#pluginCmds.append(["!reloadmodules"])
-	#pluginCmds.append(["!reloadplugins"])
 
 def importPlugins(name):
     mod = __import__(name, fromlist=[''])
@@ -110,7 +107,7 @@ def callmodule(message, optionsList):
                                                 	        else:
                                                         	        reply = plugins[count].do(message, optionsList)
 	                                                                return reply	
-	                                                else :
+	                                                else:
 								if plugins[count].hasEncodings():
 	        	                                                reply = plugins[count].do()      
         	        	                                        return ("%s" % reply).encode('UTF-8')
