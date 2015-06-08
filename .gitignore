@@ -22,6 +22,8 @@ unixfile
 # Directories #
 ###############
 plugin/etc/downloads/
+plugin/libraries/*
+plugin/etc/hangman/
  
 # Packages #
 ############
