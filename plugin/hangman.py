@@ -85,33 +85,52 @@ def revealCharInUnsolved(sentence, unsolved, char):
 def getSentence():
 	# Reads ;~ separated document, gets the 0th element
 	fileDir = hangdir + "hangman"
-        sentence = genfromtxt(fileDir, delimiter=';~', dtype=None)
-	return sentence[0]
+	
+	with open(fileDir, "r") as myfile:
+	        data = myfile.read().split(";~")
+		return data[0]
+	
+	return None
 
 def getUnsolved():
 	# Reads ;~ separated document, gets 1st element
 	fileDir = hangdir + "hangman"
-        unsolved = genfromtxt(fileDir, delimiter=';~', dtype=None)
-	return unsolved[1]
+
+	with open(fileDir, "r") as myfile:
+                data = myfile.read().split(";~")
+                return data[1]
+
+	return None
 
 def getTurns():
 	# Reads ;~ separated document, gets 2nd element	
 	fileDir = hangdir + "hangman"
-        turns = genfromtxt(fileDir, delimiter=';~', dtype=None)
-	return turns[2]
+	
+	with open(fileDir, "r") as myfile:
+                data = myfile.read().split(";~")
+                return int(data[2])
+
+	return None
 
 def getFailed():
 	# Reads ;~ separated document, gets 3rd element
 	fileDir = hangdir + "hangman"
-        failed = genfromtxt(fileDir, delimiter=';~', dtype=None)
+        
+	with open(fileDir, "r") as myfile:
+                data = myfile.read().split(";~")
+                return data[3]
 
-	return failed[3]
+	return None
+
 def getGuesses():
 	# Reads ;~ separated document, gets 4th element
         fileDir = hangdir + "hangman"
-        guesses = genfromtxt(fileDir, delimiter=';~', dtype=None)
+        
+	with open(fileDir, "r") as myfile:
+                data = myfile.read().split(";~")
+                return data[4]
 
-        return guesses[4]
+        return None
 
 def writeBackToFile(sentence, unsolved, turns, failed, guesses):
 	# Clears current file, writes new file, tab delimited
@@ -135,8 +154,10 @@ def writeBackToFile(sentence, unsolved, turns, failed, guesses):
 def isGameExists():
 	# Check if file exists and is not empty
 	if os.path.isfile(hangdir) and not os.stat(hangdir).st_size == 0:
+		print "Game Exists"
 		return True	
 	# Else
+	print "No Game Exists"
 	return False
 
 def newGame():
