@@ -25,17 +25,17 @@ def play(message, optionsList):
 	tgin = optionsList[0]
 	
 	# Check if existing game is running
-	if not isGameExists():
+	if not isGameExists() or message[0] == "new_game":
 		# Start a new game
-		newGame()
+		return newGame()
 
-	turn(message[0])
+	return turn(message[0], peer)
 
-def turn(guess):
+def turn(guess, peer):
 	# Get all initial values
 	sentence = getSentence()
 	unsolved = getUnsolved()
-	turns = getTurns()
+	turns = int(getTurns())
 	failed = getFailed()
 	guesses = getGuesses()
 
@@ -44,28 +44,66 @@ def turn(guess):
 		guess = guess.translate(None, string.punctuation).upper()
 		tempSentence = sentence.translate(None, string.punctuation).upper()
 
-		if guess is tempSentence:
-			endGame()
-			return "You win!"
+		# Guessed correctly, won the game
+		if guess == tempSentence:
+			return gameWin(peer, unsolved)
+
 		# Else if guess is not in the guessesList
-		elif guess in sentence:
+		elif guess in tempSentence:
+			# Guess is a word in tempSentence but not the whole sentence
+			if len(guess) > 1:
+				return unsolved + "\n" + guess + " is in the sentence, you're on the right track!"
+
 			if guess not in guesses:
-				revealCharInUnsolved(sentence, unsolved, guess)
+				unsolved = revealCharInUnsolved(sentence, unsolved, guess)
 				guesses += guess
 				
 				message = unsolved + "\n" + "You guessed "+guess+"!"
-				return message
+				
+				writeBackToFile(sentence, unsolved, turns, failed, guesses)
+				
+				if not isSolved(unsolved, sentence, peer):
+					return message
+				return gameWin(peer, unsolved)
 			else:
-				return "You've already guessed " + guess +"!"
+				writeBackToFile(sentence, unsolved, turns, failed, guesses)
+				return unsolved+"\nYou've already guessed " + guess +"!"
 		# Guess is not in the sentence
 		else:
+			
+			if guess in guesses:
+                                writeBackToFile(sentence, unsolved, turns, failed, guesses)
+                                return unsolved+"\nYou've already guessed " + guess +"!"
+
 			turns -= 1
-			message = "Wrong, you have "+ turns + " more guesses"
+			guesses += guess
+			message = unsolved +"\nWrong, you have "+ str(turns) + " more guesses"
+
+			writeBackToFile(sentence, unsolved, turns, failed, guesses)
 			return message
+
+		# Turn over, write back
+		writeBackToFile(sentence, unsolved, turns, failed, guesses)
 	# Turns <= 0
 	else:
 		endGame()
 		return "You Lose\nSentence was: " + sentence
+
+
+def gameWin(peer, unsolved):
+	endGame()
+	return unsolved+ "\n"+peer + " Wins!"
+
+def isSolved(unsolved, sentence, peer):
+	unsolved = unsolved.replace(" ", "")
+	unsolved = unsolved.replace(".", " ")
+	
+	
+	if unsolved.upper() == sentence.upper():
+		print "Solved! Won Game!"
+		return True
+
+	return False
 
 def revealCharInUnsolved(sentence, unsolved, char):
 	tempUnsolved = unsolved
@@ -76,10 +114,19 @@ def revealCharInUnsolved(sentence, unsolved, char):
 
 	# Need to iterate through unsolved and sentence
 	for i, c in enumerate(sentence):
-			if c is char:
-				tempUnsolved[i] = char.upper()
+			if c.upper() == char.upper():
+				tempUnsolved = replaceCharAtIndex(tempUnsolved, i, char)
 
 	return tempUnsolved
+
+def replaceCharAtIndex(word, index, char):
+	# Remove all spaces, for consistency
+	wordList = list(word.replace(" ", ""))
+	
+	wordList[index] = char
+
+	# Re add all spaces
+	return ' '.join(wordList)
 
 def getSentence():
 	# Reads ;~ separated document, gets the 0th element
@@ -152,7 +199,7 @@ def writeBackToFile(sentence, unsolved, turns, failed, guesses):
 
 def isGameExists():
 	# Check if file exists and is not empty
-	if os.path.isfile(hangdir) and not os.stat(hangdir).st_size == 0:
+	if os.path.isfile(hangdir + "hangman"):
 		print "Game Exists"
 		return True	
 	# Else
@@ -183,7 +230,7 @@ def newGame():
 
 	file.close()
 
-	message = "Beginning Hangman \n" + unsolved
+	message = "Started new game of Hangman! \n" + unsolved
 	return message 
 
 def chooseRandomSentence():
@@ -191,10 +238,8 @@ def chooseRandomSentence():
 	fileDir = hangdir + "sentences"
 	sentences = genfromtxt(fileDir, delimiter=';~', dtype=None)
 
-	print(sentences)
-
 	# Get random item from sentences
-	return random.choice(sentences)	
+	return random.choice(sentences)[0]
 
 def generateUnsolved(sentence):
 	# Converts sentence into a series of _'s and .'s, punctuation is left in
