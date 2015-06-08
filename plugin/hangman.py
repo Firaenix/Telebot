@@ -40,7 +40,6 @@ def turn(guess):
 	guesses = getGuesses()
 
 	if turns > 0:
-	
 		# Assume guess is the full word, remove punctuation and check against sentence
 		guess = guess.translate(None, string.punctuation).upper()
 		tempSentence = sentence.translate(None, string.punctuation).upper()
@@ -50,19 +49,19 @@ def turn(guess):
 			return "You win!"
 		# Else if guess is not in the guessesList
 		elif guess in sentence:
-
 			if guess not in guesses:
 				revealCharInUnsolved(sentence, unsolved, guess)
 				guesses += guess
+				
+				message = unsolved + "\n" + "You guessed "+guess+"!"
+				return message
 			else:
 				return "You've already guessed " + guess +"!"
-
 		# Guess is not in the sentence
 		else:
 			turns -= 1
 			message = "Wrong, you have "+ turns + " more guesses"
 			return message
-
 	# Turns <= 0
 	else:
 		endGame()
