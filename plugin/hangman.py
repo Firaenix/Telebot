@@ -14,7 +14,7 @@ import string
 hangdir = "plugin/etc/hangman/"
 
 def help():
-        return "hang(man): Begins a game of hangman"
+        return "!hang(man): Begins a game of hangman"
 
 def do(message, optionsList):
         return play(message, optionsList);
@@ -204,7 +204,7 @@ def endGame():
 	os.remove(hangdir + "hangman")
 
 def getCmd():
-        return ["hangman","hang", "hman"]
+        return ["!hangman","!hang", "!hman"]
 
 def getArgs():
         return 2
