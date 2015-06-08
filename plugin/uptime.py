@@ -26,17 +26,25 @@ def do():
 	message = "Uptime: "
 
 	if rd.years > 0:
-		message = message + "%d years, " % rd.years
+		message = message + getDate(rd.years, "year") + ", "
 	if rd.months > 0:
-		message = message + "%d months, " % rd.months
+		message = message + getDate(rd.months, "month") + ", "
+	if rd.days >= 7:
+		message = message + getDate((rd.days / 7), "week") + ", "
 	if rd.days > 0:
-		message = message + "%d days, " % rd.days
+		message = message + getDate((rd.days % 7), "day") + ", "
 	if rd.hours > 0:
-		message = message + "%d hours, " % rd.hours
+		message = message + getDate(rd.hours, "hour") + ", "
 	if rd.minutes > 0:
-		message = message + "%d minutes, " % rd.minutes
-	message = message + "%d seconds" % rd.seconds
+		message = message + getDate(rd.minutes, "minute") + ", "
+	message = message + getDate(rd.seconds, "second")
 	return message
+
+def getDate(time, dateType):
+	if time > 1 or time == 0:
+		dateType = dateType + "s"
+
+	return "{0} {1}".format(time, dateType)
 
 def getCmd():
 	return ["!uptime"]

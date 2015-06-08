@@ -34,6 +34,7 @@ def getPlugins(firstRun):
         for fname in glob.glob(path):
 		plugin_path = fname.split(".py")[0]
                 package_plugin = plugin_path.replace("/", ".")
+
                 if(package_plugin != "plugin.__init__"):
                         try:
                                 print package_plugin
@@ -52,28 +53,24 @@ def getPlugins(firstRun):
                                 pluginCmds.append(cmds)
 
                                 #On start up, adds the help text to the string
-                                s = module.help()
-					
+                                s = module.help()					
                                
                                 helpString += "\n"+ s
                         except Exception as e:
                                 print traceback.print_exc()
 
         pluginCmds.append(["!help"])
-	#pluginCmds.append(["!reloadmodules"])
-	#pluginCmds.append(["!reloadplugins"])
 
 def importPlugins(name):
     mod = __import__(name, fromlist=[''])
     return mod
 	
-
-
 def callmodule(message, optionsList):
         command = message.split(' ')[0]
         count = 0
         for pluginCmd in pluginCmds:
 		for subCmd in pluginCmd:
+
 	                if (command.lower() == subCmd or (subCmd[0] != "!" and subCmd in command.lower())):
 				#turns the message into the arguments to pass to the plugin
 				if subCmd[0] == '!':
@@ -110,7 +107,7 @@ def callmodule(message, optionsList):
                                                 	        else:
                                                         	        reply = plugins[count].do(message, optionsList)
 	                                                                return reply	
-	                                                else :
+	                                                else:
 								if plugins[count].hasEncodings():
 	        	                                                reply = plugins[count].do()      
         	        	                                        return ("%s" % reply).encode('UTF-8')

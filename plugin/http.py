@@ -9,12 +9,15 @@ from bs4 import BeautifulSoup
 import requests
 from requests.exceptions import HTTPError
 import urllib2
+import ssl
 import os
+
 import sdk.group
 import sdk.media
 
 etcDir = "plugin/etc/downloads/"
 link = ""
+sslCxt = ssl._create_unverified_context()
 
 def help():
         return "!http [link]: Paste a link preceded by ! to see the contents"
@@ -26,10 +29,11 @@ def do(message,  optionsList):
 	
 	link = httpscheme+message
 	data = None
+	
 	try:
 		header = {'User-Agent' : "Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (FM Scene 4.6.1)"}
 		request = urllib2.Request(link, None ,header)
-                data = urllib2.urlopen(request)
+                data = urllib2.urlopen(request, context=sslCxt)
         except urllib2.URLError, e:
 		return e
 	except urllib2.HTTPError, e:
@@ -66,7 +70,7 @@ def get_file_size(data):
 
 def title(urlLink, request, data, optionsList):
 	try:
-		page = BeautifulSoup(urllib2.urlopen(request))
+		page = BeautifulSoup(urllib2.urlopen(request, context=sslCxt))
 	except urllib2.HTTPError, e:
 		return e
 	try:
@@ -77,12 +81,15 @@ def title(urlLink, request, data, optionsList):
 
 def send_doc(urlLink, request, data, optionsList):
 	file_size = get_file_size(data)
+
 	if not file_size > 10:
 	        #Get the file name+extension
 	        saveDir = etcDir+urlLink.split('/')[-1]
+
 	        #Save image to disk
-	        imgData = urllib2.urlopen(request).read()
+	        imgData = urllib2.urlopen(request, context=sslCxt).read()
 	        output = open(saveDir, 'wb+')
+
 	        if not output.closed:
 	                output.write(imgData)
 	                output.close()
@@ -95,12 +102,15 @@ def send_doc(urlLink, request, data, optionsList):
 
 def send_video(urlLink, request, data, optionsList):
         file_size = get_file_size(data)
+
         if not file_size > 10:
                 #Get the file name+extension
                 saveDir = etcDir+urlLink.split('/')[-1]
+
                 #Save image to disk
-                imgData = urllib2.urlopen(request).read()
+                imgData = urllib2.urlopen(request, context=sslCxt).read()
                 output = open(saveDir, 'wb+')
+
                 if not output.closed:
                         output.write(imgData)
                         output.close()
@@ -113,13 +123,15 @@ def send_video(urlLink, request, data, optionsList):
 
 def send_pic(urlLink, request, data, optionsList):
 	file_size = get_file_size(data)
+
         if not file_size > 10:
 	        #Get the file name, add png for case where url has no extension
 	        saveDir = etcDir+urlLink.split('/')[-1].split('.')[0]+".png"		
 
 	        #Save image to disk
-	        imgData = urllib2.urlopen(request).read()
+	        imgData = urllib2.urlopen(request, context=sslCxt).read()
 	        output = open(saveDir, 'wb+')
+
 	        if not output.closed:
 	                output.write(imgData)
 	                output.close()

@@ -38,12 +38,16 @@ Within bot.py the path to the telegram client needs to be changed within the pat
 ### REQUIRED PYTHON MODULES ###
 Install these plugins globally
 
+pip install <name_of_plugin>
+
 - wikipedia.py for Wiki plugin
 - tungsten.py for Wolfram plugin
 - BeautifulSoup4 for multiple plugins
 - python-dateutil for uptime plugin
 - psutil for sysinfo plugin
 - requests,pybingsearch for search plugin
+- cleverbot for clever.py
+- numpy for hangman.py
 
 ### Disabling modules ###
 Remove them from the plugins folder respectively
